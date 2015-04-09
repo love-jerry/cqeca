@@ -1,0 +1,53 @@
+package com.cqeca.web.filter;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.cqeca.web.annotation.FilterCheckUrl;
+import com.cqeca.web.constant.FiledsConstant;
+
+public class CommonInterceptor implements HandlerInterceptor {
+	
+	public boolean preHandle(HttpServletRequest request,
+			HttpServletResponse response, Object handler) throws Exception {
+		HandlerMethod method = (HandlerMethod) handler;
+		//自定义注解，显示注明不需要过滤该url
+		FilterCheckUrl filterCheckUrl = method.getMethodAnnotation(FilterCheckUrl.class);
+		if(null != filterCheckUrl && !filterCheckUrl.value()) {
+			return true;
+		}
+		
+		String url = method.getMethodAnnotation(RequestMapping.class).value()[0];
+		if(url.contains(FiledsConstant.MANAGER_PREX_URL)) {
+			HttpSession session = request.getSession();
+			if(null == session.getAttribute(FiledsConstant.SESSION_KEY)) {
+				 request.getRequestDispatcher("/manager/index").forward(request, response);  
+				return false;
+			}
+		} 
+		return true;
+	}
+
+	public void postHandle(HttpServletRequest request,
+			HttpServletResponse response, Object handler,
+			ModelAndView modelAndView) throws Exception {
+
+		
+	}
+
+	public void afterCompletion(HttpServletRequest request,
+			HttpServletResponse response, Object handler, Exception ex)
+			throws Exception {
+		
+		
+	}
+
+	
+
+}
