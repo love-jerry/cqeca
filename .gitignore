@@ -41,3 +41,13 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+*.class
+*.apk
+bin/
+gen/
+.settings/
+proguard/
+*.project
+*.classpath
+target/
+catalina.base_IS_UNDEFINED/

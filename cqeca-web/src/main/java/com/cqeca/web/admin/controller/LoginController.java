@@ -1,4 +1,4 @@
-package com.cqeca.web.controller;
+package com.cqeca.web.admin.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.cqeca.service.login.LoginService;
 import com.cqeca.service.login.session.SessionEntity;
+import com.cqeca.util.constant.FiledsConstant;
 import com.cqeca.web.annotation.FilterCheckUrl;
-import com.cqeca.web.constant.FiledsConstant;
 
 /***
 * @ClassName: LoginController 
@@ -28,7 +28,7 @@ public class LoginController {
 	@Autowired
 	private LoginService loginService; 
 
-	private static final Logger logger = LoggerFactory.getLogger(IndexController.class);
+	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
 	
 	/**

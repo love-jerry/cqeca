@@ -153,11 +153,11 @@
 			</releases>
 		</repository>
 		<!-- 配置资源库 -->
-		<repository>
+		<!-- <repository>
 			<id>nexus</id>
 			<name>nexus</name>
 			<url>http://172.16.1.205:8081/nexus/content/groups/public/</url>
-		</repository>
+		</repository> -->
 	</repositories>
 
 </project>

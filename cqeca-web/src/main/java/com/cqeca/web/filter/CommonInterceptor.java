@@ -9,9 +9,15 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cqeca.util.constant.FiledsConstant;
 import com.cqeca.web.annotation.FilterCheckUrl;
-import com.cqeca.web.constant.FiledsConstant;
 
+/**
+* @ClassName: CommonInterceptor 
+* @Description:后台请求拦截器 
+* @author chenrui
+* @date 2015-4-10 下午4:49:17
+ */
 public class CommonInterceptor implements HandlerInterceptor {
 	
 	public boolean preHandle(HttpServletRequest request,

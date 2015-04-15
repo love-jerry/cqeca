@@ -16,6 +16,7 @@ import com.cqeca.dao.mongodb.UserDao;
 import com.cqeca.dao.mongodb.pojo.LoginModel;
 import com.cqeca.dao.mongodb.pojo.UserModel;
 import com.cqeca.service.login.session.SessionEntity;
+import com.cqeca.util.tools.MD5Util;
 import com.cqeca.util.tools.UUIDUtil;
 
 /**
@@ -38,6 +39,7 @@ public class LoginService {
 	@Transactional
 	public SessionEntity loginIn(String userName,String password) throws Exception {
 		logger.info("进入【用户登录】方法，入参[userName=" + userName + "]");
+		password = MD5Util.encoderByMd5(password);
 		Criteria criteria =  Criteria.where("userName").is(userName).and("password").is(password);
 		Query query = new Query(criteria);
 		UserModel userModel = userDao.find(query);

@@ -34,6 +34,11 @@ public class NewsModel {
 	private int newsType;
 	
 	/**
+	 * 新闻标签
+	 */
+	private String label;
+	
+	/**
 	 * 浏览次数
 	 */
 	private long browseTimes;
@@ -97,6 +102,14 @@ public class NewsModel {
 
 	public long getBrowseTimes() {
 		return browseTimes;
+	}
+
+	public String getLabel() {
+		return label;
+	}
+
+	public void setLabel(String label) {
+		this.label = label;
 	}
 
 	public void setBrowseTimes(long browseTimes) {
