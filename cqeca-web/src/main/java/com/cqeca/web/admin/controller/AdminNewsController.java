@@ -4,13 +4,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.cqeca.service.login.session.SessionEntity;
+import com.cqeca.service.news.NewsService;
+import com.cqeca.util.constant.FiledsConstant;
+import com.cqeca.util.enums.NewsTypeEnum;
 /**
 * @ClassName: AdminNewsController 
 * @Description:后台新闻管理控制器 
@@ -21,14 +28,22 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(value="/manager")
 public class AdminNewsController {
 
+	@Autowired
+	private NewsService newsService;
+	
 	private static final Logger logger = LoggerFactory.getLogger(AdminNewsController.class);
 
 	@RequestMapping(value="/publish")
 	@ResponseBody
-	public Object publishNews(HttpServletRequest request,Model model) {
+	public Object publishNews(String title,String content,NewsTypeEnum newsType,String label, HttpServletRequest request,Model model) {
+		logger.info("welcome to publish news page");
+		HttpSession session = request.getSession();
 		
+		SessionEntity sessionEntity = (SessionEntity)(session.getAttribute(FiledsConstant.SESSION_KEY));
+		String userId = sessionEntity.getUserId();
 		
-		
+		newsService.saveNews(userId, newsType, title, content, label);
+
 		Map<String,String> result = new HashMap<String,String>();
 		result.put("status", "ok");
 		return result;

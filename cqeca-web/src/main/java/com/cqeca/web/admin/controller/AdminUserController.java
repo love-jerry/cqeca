@@ -41,7 +41,7 @@ public class AdminUserController {
 	
 	@RequestMapping(value = "/updatePassword")
 	public String updatePwd(String userName,String password,Model model) {
-		logger.info("welcome to index page!");
+		logger.info("welcome to update password page!");
 		
 		password = MD5Util.encoderByMd5(password);
 		
