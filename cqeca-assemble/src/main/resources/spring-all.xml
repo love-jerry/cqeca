@@ -9,5 +9,6 @@
 						
 	<import resource="classpath*:/cqeca-service.xml"/>
 	<import resource="classpath*:/cqeca-web.xml"/>
+	<import resource="classpath*:/cqeca-mongodb.xml"/>
 
 </beans>

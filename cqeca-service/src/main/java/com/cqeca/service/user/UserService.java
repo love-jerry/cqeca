@@ -6,6 +6,9 @@ import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import com.cqeca.dao.mongodb.UserDao;
@@ -48,4 +51,17 @@ public class UserService {
 		logger.info("退出【添加用户】方法");
 	}
 	
+	/**
+	 * 修改密码
+	 * @param userName
+	 * @param password
+	 */
+	public void updatePwd(String userName,String password) {
+		Criteria criteria =  Criteria.where("userName").is(userName);
+		Query query = new Query(criteria);
+		//更新用户密码
+		Update update = new Update();
+		update.set("password", password);
+		userDao.updateFirst(query, update);
+	}
 }

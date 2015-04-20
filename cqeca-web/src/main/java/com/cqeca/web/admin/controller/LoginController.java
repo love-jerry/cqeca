@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.cqeca.service.login.LoginService;
 import com.cqeca.service.login.session.SessionEntity;
+import com.cqeca.service.user.UserService;
 import com.cqeca.util.constant.FiledsConstant;
+import com.cqeca.util.tools.MD5Util;
 import com.cqeca.web.annotation.FilterCheckUrl;
 
 /***
@@ -69,5 +71,5 @@ public class LoginController {
 		}
 		return "manager_login";
 	}
-	
+
 }

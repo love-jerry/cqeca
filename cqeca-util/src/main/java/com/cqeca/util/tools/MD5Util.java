@@ -106,5 +106,10 @@ public class MD5Util {
 		
 		return md5StrBuff.toString();
 	}
+	
+	public static void main(String[] args) {
+		String initPwd = MD5Util.encoderByMd5("admin");
+		System.out.println(initPwd);
+	}
 }
 

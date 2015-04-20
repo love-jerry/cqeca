@@ -23,8 +23,6 @@ import com.cqeca.util.constant.FiledsConstant;
 import com.cqeca.util.enums.NewsTypeEnum;
 import com.cqeca.util.tools.DateFormatUtil;
 import com.cqeca.util.tools.UUIDUtil;
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
 
 /**
 * @ClassName: NewsService 
