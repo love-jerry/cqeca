@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -129,7 +130,39 @@ public class NewsService {
 		List<NewsModel> greatNews = findNewsByType(NewsTypeEnum.OTHER_NEWS,1000);
 		return changeViewData(greatNews);
 	}
+	/***
+	 *  分页查询新闻
+	 * @param newsType
+	 * @param start
+	 * @param pageSize
+	 * @return
+	 */
+	public List<NewsDetailForm> queryNews(int newsType,int start,int pageSize) {
+		List<NewsModel> greatNews = findNewsByPage(newsType,start,pageSize);
+		return changeViewData(greatNews);
+	}
 	
+	/**
+	 * 根据标签查询新闻
+	 * @param label
+	 * @return
+	 */
+	public List<NewsDetailForm> queryNewsByLabel(String label) {
+		Pattern pattern = Pattern.compile("^label$", Pattern.CASE_INSENSITIVE);
+		Criteria criteria =  Criteria.where("label").regex(pattern);
+		Query query = new Query(criteria);
+		query.with(new Sort(Sort.Direction.DESC, "publishTime"));
+		List<NewsModel> newsList =  newsDao.findMany(query);
+		
+		return changeViewData(newsList);
+	}
+	
+	/**
+	 * 查询上一条新闻
+	 * @param type
+	 * @param publishDate
+	 * @return
+	 */
 	public NewsModel queryBeforeNews(int type,Date publishDate) {
 		Criteria criteria =  Criteria.where("newsType").is(type).and("publishTime").gt(publishDate);
 		Query query = new Query(criteria);
@@ -138,6 +171,12 @@ public class NewsService {
 		return newsDao.find(query);
 	}
 	
+	/**
+	 * 查询下一条新闻
+	 * @param type
+	 * @param publishDate
+	 * @return
+	 */
 	public NewsModel queryNextNews(int type,Date publishDate) {
 		Criteria criteria =  Criteria.where("newsType").is(type).and("publishTime").lt(publishDate);
 		Query query = new Query(criteria);
@@ -159,6 +198,22 @@ public class NewsService {
 		query.limit(limite);
 		return newsDao.findMany(query);
 	}
+	
+	/**
+	 * 根据类型分页查询新闻
+	 * @param newsTypeEnum
+	 * @param limite
+	 * @return
+	 */
+	public List<NewsModel> findNewsByPage(int newsType,int start,int pageSize) {
+		Criteria criteria =  Criteria.where("newsType").is(newsType);
+		Query query = new Query(criteria);
+		query.with(new Sort(Sort.Direction.DESC, "publishTime"));
+		query.skip(start);
+		query.limit(pageSize);
+		return newsDao.findMany(query);
+	}
+
 	
 	/**
 	 * 封装视图需要新闻字段

@@ -41,4 +41,20 @@ public class NewsController {
 		model.addAttribute("greatNews", greatNewsList);
 		return "/great_news";
 	}
+	
+	@RequestMapping(value="/find_news")
+	public String findNews(int newsType,int start,int pageSize,Model model) {
+		logger.info("welcome to find news page!");
+		List<NewsDetailForm> newsList = newsService.queryNews(newsType, start, pageSize);
+		model.addAttribute("newsList", newsList);
+		return "/news_list";
+	}
+	
+	@RequestMapping(value="/find_news_by_label")
+	public String findNewsByLabel(String label,Model model) {
+		logger.info("welcome to find news by label!");
+		List<NewsDetailForm> newsList = newsService.queryNewsByLabel(label);
+		model.addAttribute("newsList", newsList);
+		return "/news_list";
+	}
 }

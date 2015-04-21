@@ -84,7 +84,7 @@ public class UploadController {
 	 * @throws Exception
 	 */
 	@FilterCheckUrl(value = false)
-	@RequestMapping("/download/{fileName}")  
+	@RequestMapping("/download")  
     public void download(String fileName, HttpServletRequest request, HttpServletResponse response)  
             throws Exception {
         response.setContentType("text/html;charset=utf-8");  
