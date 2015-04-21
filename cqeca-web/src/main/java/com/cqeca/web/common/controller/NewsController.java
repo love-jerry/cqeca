@@ -1,5 +1,7 @@
 package com.cqeca.web.common.controller;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +26,19 @@ public class NewsController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(NewsController.class);
 
-	
 	@RequestMapping(value="/news_detail")
-	public String getNews(String newsId,Model model) {
-		logger.info("welcome to news page!");
+	public String getNewsDetail(String newsId,Model model) {
+		logger.info("welcome to news detail page!");
 		NewsDetailForm newsDetailForm = newsService.getNewsDetail(newsId);
 		model.addAttribute("newsDetail", newsDetailForm);
 		return "/news_detail";
 	}
 	
+	@RequestMapping(value="/great_news")
+	public String getGreatNews(Model model) {
+		logger.info("welcome to great news page!");
+		List<NewsDetailForm> greatNewsList = newsService.queryGreatNews();
+		model.addAttribute("greatNews", greatNewsList);
+		return "/great_news";
+	}
 }

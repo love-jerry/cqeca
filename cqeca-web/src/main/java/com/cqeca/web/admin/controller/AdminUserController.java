@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.cqeca.service.user.UserService;
 import com.cqeca.util.tools.MD5Util;
+import com.cqeca.web.annotation.FilterCheckUrl;
 
 /**
  * @ClassName: AdminUserController
@@ -26,7 +27,8 @@ public class AdminUserController {
 	private static final Logger logger = LoggerFactory.getLogger(AdminUserController.class);
 
 	
-//	@RequestMapping(value = "/addUser")
+	@FilterCheckUrl(value = false)
+	@RequestMapping(value = "/addUser")
 	public String addUser(Model model) {
 		logger.info("welcome to index page!");
 		
@@ -39,6 +41,7 @@ public class AdminUserController {
 		return "ok";
 	}
 	
+	@FilterCheckUrl(value = false)
 	@RequestMapping(value = "/updatePassword")
 	public String updatePwd(String userName,String password,Model model) {
 		logger.info("welcome to update password page!");

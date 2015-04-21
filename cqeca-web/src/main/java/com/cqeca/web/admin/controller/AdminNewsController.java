@@ -18,6 +18,7 @@ import com.cqeca.service.login.session.SessionEntity;
 import com.cqeca.service.news.NewsService;
 import com.cqeca.util.constant.FiledsConstant;
 import com.cqeca.util.enums.NewsTypeEnum;
+import com.cqeca.web.annotation.FilterCheckUrl;
 /**
 * @ClassName: AdminNewsController 
 * @Description:后台新闻管理控制器 
@@ -33,6 +34,7 @@ public class AdminNewsController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(AdminNewsController.class);
 
+	@FilterCheckUrl(value = true)
 	@RequestMapping(value="/publish")
 	@ResponseBody
 	public Object publishNews(String title,String content,NewsTypeEnum newsType,String label, HttpServletRequest request,Model model) {

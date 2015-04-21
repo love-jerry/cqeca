@@ -21,7 +21,10 @@ public enum NewsTypeEnum {
 	DYNAMIC_NEWS(3, "动态类新闻"),
 
 	// 其他
-	OTHER_NEWS(4, "其他类型新闻");
+	OTHER_NEWS(4, "其他类型新闻"),
+	
+	// 其他
+	GREAT_NEWS(5, "大事记新闻");
 
 	/** 枚举值 */
 	private final int code;

@@ -19,7 +19,6 @@ public class AdminIndexController {
 
 	private static final Logger logger = LoggerFactory.getLogger(AdminIndexController.class);
 
-	@FilterCheckUrl(value = false)
 	@RequestMapping(value = "/index")
 	public String toManagerIndex() {
 		logger.info("welcome to manager index page!");

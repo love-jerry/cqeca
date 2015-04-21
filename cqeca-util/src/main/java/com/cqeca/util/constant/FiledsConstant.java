@@ -20,5 +20,8 @@ public class FiledsConstant {
 	public static final String DYNAMIC_NEWS_KEY = "dynamicNews";
 	public static final String NOTICE_NEWS_KEY = "noticeNews";
 	public static final String OTHER_NEWS_KEY = "otherNews";
+	
+	public static final String UPLOAD_PERFIX_PATH = "/news/images/" ;
+	public static final String DOWNLOAD_PERFIX_PATH = "/news/doc/" ;
 
 }

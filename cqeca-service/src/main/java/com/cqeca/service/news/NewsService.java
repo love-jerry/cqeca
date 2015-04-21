@@ -121,6 +121,15 @@ public class NewsService {
 		return newsDetailForm;
 	}
 	
+	/**
+	 * 查询所有大事记新闻(默认查询1000条)
+	 * @return
+	 */
+	public List<NewsDetailForm> queryGreatNews() {
+		List<NewsModel> greatNews = findNewsByType(NewsTypeEnum.OTHER_NEWS,1000);
+		return changeViewData(greatNews);
+	}
+	
 	public NewsModel queryBeforeNews(int type,Date publishDate) {
 		Criteria criteria =  Criteria.where("newsType").is(type).and("publishTime").gt(publishDate);
 		Query query = new Query(criteria);

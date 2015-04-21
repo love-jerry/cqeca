@@ -114,11 +114,11 @@
 		</dependency>
 
 		<!-- 文件上传 -->
-		<!-- <dependency>
+		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
 			<version>1.2</version>
-		</dependency> -->
+		</dependency>
 
 	</dependencies>
 
@@ -144,7 +144,6 @@
 		        <artifactId>maven-jetty-plugin</artifactId>
 		        <version>6.1.10</version>
 		        <configuration>
-		          <!-- 每2秒的间隔扫描一次,实现热部署 -->
 		          <scanIntervalSeconds>2</scanIntervalSeconds>
 		          <webAppConfig>
 						<contextPath>/cqeca</contextPath>
