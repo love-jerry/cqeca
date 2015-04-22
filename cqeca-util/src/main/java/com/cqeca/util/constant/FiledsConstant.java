@@ -16,10 +16,10 @@ public class FiledsConstant {
 	
 	public static final String NEWS_DETAIL_URL = "http://127.0.0.1:8090/news_detail?newsId=";
 	
-	public static final String ACTIVITY_NEWS_KEY = "activityNews";
-	public static final String DYNAMIC_NEWS_KEY = "dynamicNews";
-	public static final String NOTICE_NEWS_KEY = "noticeNews";
-	public static final String OTHER_NEWS_KEY = "otherNews";
+	public static final String ACTIVITY_NEWS_KEY = "dataLayer1";
+	public static final String DYNAMIC_NEWS_KEY = "dataLayer2";
+	public static final String NOTICE_NEWS_KEY = "dataLayer3";
+	public static final String OTHER_NEWS_KEY = "dataLayer4";
 	
 	public static final String UPLOAD_PERFIX_PATH = "/news/images/" ;
 	public static final String DOWNLOAD_PERFIX_PATH = "/news/doc/" ;

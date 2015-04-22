@@ -70,18 +70,26 @@ public class NewsService {
 	 * 首页新闻查询
 	 * @return
 	 */
-	public Map<String,List<NewsDetailForm>> findIndexNews() {
+	public Map<String,Map<String,Object>> findIndexNews() {
 		List<NewsModel> activityNews = findNewsByType(NewsTypeEnum.ACTIVITY_NEWS,6);
 		List<NewsModel> dynamicNews = findNewsByType(NewsTypeEnum.DYNAMIC_NEWS,8);
 		List<NewsModel> noticeNews = findNewsByType(NewsTypeEnum.NOTICE_NEWS,8);
 		List<NewsModel> otherNews = findNewsByType(NewsTypeEnum.OTHER_NEWS,8);
 		
 		//处理成视图需要属性字段
-		Map<String,List<NewsDetailForm>> newsMap = new HashMap<String,List<NewsDetailForm>>();
-		newsMap.put(FiledsConstant.ACTIVITY_NEWS_KEY, changeViewData(activityNews));
-		newsMap.put(FiledsConstant.DYNAMIC_NEWS_KEY, changeViewData(dynamicNews));
-		newsMap.put(FiledsConstant.NOTICE_NEWS_KEY, changeViewData(noticeNews));
-		newsMap.put(FiledsConstant.OTHER_NEWS_KEY, changeViewData(otherNews));
+		Map<String,	Map<String,Object>> newsMap = new HashMap<String,	Map<String,Object>>();
+		
+		Map<String,Object> activity_news_map = new HashMap<String,Object>();
+		activity_news_map.put("boxH", "动态新闻");
+		activity_news_map.put("boxLink", "动态新闻");
+//		activity_news_map.put("list", changeViewData(activityNews));
+		newsMap.put(FiledsConstant.ACTIVITY_NEWS_KEY, activity_news_map);
+		
+		
+		
+//		newsMap.put(FiledsConstant.DYNAMIC_NEWS_KEY, changeViewData(dynamicNews));
+//		newsMap.put(FiledsConstant.NOTICE_NEWS_KEY, changeViewData(noticeNews));
+//		newsMap.put(FiledsConstant.OTHER_NEWS_KEY, changeViewData(otherNews));
 		
 		return newsMap;
 	}
@@ -223,13 +231,22 @@ public class NewsService {
 	private List<NewsDetailForm> changeViewData(List<NewsModel> news) {
 		List<NewsDetailForm> viewNews = new ArrayList<NewsDetailForm>();
 		NewsDetailForm newsForm = null;
-		for(NewsModel newsModel : news) {
+//		for(NewsModel newsModel : news) {
+//			newsForm = new NewsDetailForm();
+//			newsForm.setLink(FiledsConstant.NEWS_DETAIL_URL + newsModel.getNewsId());
+//			newsForm.setTitle(newsModel.getTitle());
+//			newsForm.setDate(DateFormatUtil.dtSimpleFormat(newsModel.getPublishTime()));
+//			viewNews.add(newsForm);
+//		}
+		
+		for(int i=0;i<7; i++) {
 			newsForm = new NewsDetailForm();
-			newsForm.setLink(FiledsConstant.NEWS_DETAIL_URL + newsModel.getNewsId());
-			newsForm.setTitle(newsModel.getTitle());
-			newsForm.setDate(DateFormatUtil.dtSimpleFormat(newsModel.getPublishTime()));
+			newsForm.setLink(FiledsConstant.NEWS_DETAIL_URL + "213");
+			newsForm.setTitle("123123");
+			newsForm.setDate(DateFormatUtil.dtSimpleFormat(new Date()));
 			viewNews.add(newsForm);
 		}
+		
 		return viewNews;
 	}
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.cqeca.service.news.NewsService;
 import com.cqeca.service.news.form.NewsDetailForm;
+import com.cqeca.util.constant.FiledsConstant;
 
 /**
  * @ClassName: IndexController
@@ -31,9 +32,10 @@ public class IndexController {
 	public String toIndex(Model model) {
 		logger.info("welcome to index page!");
 		
-		Map<String, List<NewsDetailForm>> newsMap = newsService.findIndexNews();
-		model.addAllAttributes(newsMap);
-		
+		Map<String, Map<String,Object>> newsMap = newsService.findIndexNews();
+//		model.addAllAttributes(newsMap);
+		model.addAttribute("dataLayer1", "{\"boxH\":\"more\",\"boxLink\":\"www.baidu.com\",\"list\": [{\'title\': \'sss\',\'date\': \'2015-04-22\',\'link\': \'222\'}]}");
+		logger.info("data:" + model);
 		return "index";
 	}
 

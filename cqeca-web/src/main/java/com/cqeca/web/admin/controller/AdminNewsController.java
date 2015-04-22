@@ -34,16 +34,16 @@ public class AdminNewsController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(AdminNewsController.class);
 
-	@FilterCheckUrl(value = true)
+//	@FilterCheckUrl(value = true)
 	@RequestMapping(value="/publish")
 	@ResponseBody
 	public Object publishNews(String title,String content,NewsTypeEnum newsType,String label, HttpServletRequest request,Model model) {
 		logger.info("welcome to publish news page");
 		HttpSession session = request.getSession();
 		
-		SessionEntity sessionEntity = (SessionEntity)(session.getAttribute(FiledsConstant.SESSION_KEY));
-		String userId = sessionEntity.getUserId();
-		
+//		SessionEntity sessionEntity = (SessionEntity)(session.getAttribute(FiledsConstant.SESSION_KEY));
+//		String userId = sessionEntity.getUserId();
+		String userId = "75870570-9d50-46ee-880f-b867133951d4";
 		newsService.saveNews(userId, newsType, title, content, label);
 
 		Map<String,String> result = new HashMap<String,String>();
