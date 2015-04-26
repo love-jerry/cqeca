@@ -43,6 +43,7 @@ public class LoginService {
 		Criteria criteria =  Criteria.where("userName").is(userName).and("password").is(password);
 		Query query = new Query(criteria);
 		UserModel userModel = userDao.find(query);
+		logger.info("登录结果" + userModel);
 		if(null == userModel) {
 			throw new Exception("用户名/密码错误");
 		}

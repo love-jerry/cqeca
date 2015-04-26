@@ -47,11 +47,13 @@
 <body>
 
 <div class="l-content">
-    <div class="l-user-label">用户名</div>
-    <div class="l-user-input"><input type="text" /></div>
-    <div class="l-pwd-label">密码</div>
-    <div class="l-pwd-input"><input type="password" /></div>
-    <div class="l-login"><button>登录</button></div>
+	<form action="/cqeca/manager/login" method="post">
+	    <div class="l-user-label">用户名</div>
+	    <div class="l-user-input"><input type="text" name="userName" id="userName" /></div>
+	    <div class="l-pwd-label">密码</div>
+	    <div class="l-pwd-input"><input type="password" name="password" id="password"/></div>
+	    <div class="l-login"><button> <input type="submit" value="登录" /></button></div>
+	</form>
 </div>
 
 </body>

@@ -31,7 +31,12 @@ public class LoginController {
 	private LoginService loginService; 
 
 	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
-
+	
+	@FilterCheckUrl(value=false)
+	@RequestMapping(value="/index")
+	public String toLoginIndex() {
+		return "/login";
+	}
 	
 	/**
 	 * 用户后台登录
@@ -48,10 +53,10 @@ public class LoginController {
 			SessionEntity sessionEntity = loginService.loginIn(userName, password);
 			if(null == sessionEntity) {
 				model.addAttribute("error", "用户名/密码错误");
-				return "manager_login";	
+				return "login";	
 			}
 			request.getSession().setAttribute(FiledsConstant.SESSION_KEY, sessionEntity);
-			return "manager_index";
+			return "/add_article";
 		} catch (Exception e) {
 			logger.error("登录失败");
 			return "error";

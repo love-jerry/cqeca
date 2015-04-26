@@ -19,7 +19,7 @@ public class AdminIndexController {
 
 	private static final Logger logger = LoggerFactory.getLogger(AdminIndexController.class);
 
-	@RequestMapping(value = "/index")
+	@RequestMapping(value = "/main")
 	public String toManagerIndex() {
 		logger.info("welcome to manager index page!");
 		return "manager_index";

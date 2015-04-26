@@ -14,18 +14,19 @@
 	<resources mapping="/js/**" location="/js/" />
 	<resources mapping="/css/**" location="/css/" />
 	<resources mapping="/images/**" location="/images/" />
+	<resources mapping="/*.html" location="/" />
 	
 	<beans:bean id="viewResolver"
         class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
         <beans:property name="prefix" value="" />
         <beans:property name="requestContextAttribute" value="application"/>
-        <beans:property name="suffix" value=".jsp" />
+        <beans:property name="suffix" value=".html" />
         <beans:property name="contentType" value="text/html;charset=UTF-8" />
     </beans:bean>
     
     <beans:bean id="freemarkerConfig"
         class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
-        <beans:property name="templateLoaderPath" value="/views/" />
+        <beans:property name="templateLoaderPath" value="/" />
         <beans:property name="freemarkerSettings">
             <beans:props>
        			<beans:prop key="locale">zh_CN</beans:prop>

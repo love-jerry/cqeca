@@ -31,10 +31,8 @@ public class IndexController {
 	@RequestMapping(value = "/index")
 	public String toIndex(Model model) {
 		logger.info("welcome to index page!");
-		
 		Map<String, Map<String,Object>> newsMap = newsService.findIndexNews();
-//		model.addAllAttributes(newsMap);
-		model.addAttribute("dataLayer1", "{\"boxH\":\"more\",\"boxLink\":\"www.baidu.com\",\"list\": [{\'title\': \'sss\',\'date\': \'2015-04-22\',\'link\': \'222\'}]}");
+		model.addAllAttributes(newsMap);
 		logger.info("data:" + model);
 		return "index";
 	}

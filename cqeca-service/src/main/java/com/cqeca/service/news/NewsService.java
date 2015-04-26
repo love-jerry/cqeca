@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,16 +83,28 @@ public class NewsService {
 		Map<String,	Map<String,Object>> newsMap = new HashMap<String,	Map<String,Object>>();
 		
 		Map<String,Object> activity_news_map = new HashMap<String,Object>();
-		activity_news_map.put("boxH", "动态新闻");
-		activity_news_map.put("boxLink", "动态新闻");
-//		activity_news_map.put("list", changeViewData(activityNews));
+		activity_news_map.put("boxH", "协会活动");
+		activity_news_map.put("boxLink", "活动新闻");
+		activity_news_map.put("list", JSONArray.fromObject(changeViewData(activityNews)));
 		newsMap.put(FiledsConstant.ACTIVITY_NEWS_KEY, activity_news_map);
 		
+		Map<String,Object> dynamic_news_map = new HashMap<String,Object>();
+		dynamic_news_map.put("boxH", "协会动态");
+		dynamic_news_map.put("boxLink", "动态新闻");
+		dynamic_news_map.put("list", JSONArray.fromObject(changeViewData(dynamicNews)));
+		newsMap.put(FiledsConstant.DYNAMIC_NEWS_KEY, dynamic_news_map);
 		
+		Map<String,Object> notice_news_map = new HashMap<String,Object>();
+		notice_news_map.put("boxH", "协会公告");
+		notice_news_map.put("boxLink", "公告新闻");
+		notice_news_map.put("list", JSONArray.fromObject(changeViewData(noticeNews)));
+		newsMap.put(FiledsConstant.NOTICE_NEWS_KEY, notice_news_map);
 		
-//		newsMap.put(FiledsConstant.DYNAMIC_NEWS_KEY, changeViewData(dynamicNews));
-//		newsMap.put(FiledsConstant.NOTICE_NEWS_KEY, changeViewData(noticeNews));
-//		newsMap.put(FiledsConstant.OTHER_NEWS_KEY, changeViewData(otherNews));
+		Map<String,Object> other_news_map = new HashMap<String,Object>();
+		other_news_map.put("boxH", "其他新闻");
+		other_news_map.put("boxLink", "其他新闻");
+		other_news_map.put("list", JSONArray.fromObject(changeViewData(otherNews)));
+		newsMap.put(FiledsConstant.OTHER_NEWS_KEY, other_news_map);
 		
 		return newsMap;
 	}
@@ -231,22 +246,13 @@ public class NewsService {
 	private List<NewsDetailForm> changeViewData(List<NewsModel> news) {
 		List<NewsDetailForm> viewNews = new ArrayList<NewsDetailForm>();
 		NewsDetailForm newsForm = null;
-//		for(NewsModel newsModel : news) {
-//			newsForm = new NewsDetailForm();
-//			newsForm.setLink(FiledsConstant.NEWS_DETAIL_URL + newsModel.getNewsId());
-//			newsForm.setTitle(newsModel.getTitle());
-//			newsForm.setDate(DateFormatUtil.dtSimpleFormat(newsModel.getPublishTime()));
-//			viewNews.add(newsForm);
-//		}
-		
-		for(int i=0;i<7; i++) {
+		for(NewsModel newsModel : news) {
 			newsForm = new NewsDetailForm();
-			newsForm.setLink(FiledsConstant.NEWS_DETAIL_URL + "213");
-			newsForm.setTitle("123123");
-			newsForm.setDate(DateFormatUtil.dtSimpleFormat(new Date()));
+			newsForm.setLink(FiledsConstant.NEWS_DETAIL_URL + newsModel.getNewsId());
+			newsForm.setTitle(newsModel.getTitle());
+			newsForm.setDate(DateFormatUtil.dtSimpleFormat(newsModel.getPublishTime()));
 			viewNews.add(newsForm);
 		}
-		
 		return viewNews;
 	}
 }

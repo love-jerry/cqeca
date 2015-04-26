@@ -75,15 +75,17 @@
 
 <div id="content">
     <div class="p-add">
+    	<form action="/cqeca/manager/publish" method="post">
         <div class="p-add-fun"><h2>新增文章</h2></div>
-        <div class="p-add-title"><span><div class="mb5">标题</div><input type="text" placeholder="输入标题"/></span></div>
+        <div class="p-add-title"><span><div class="mb5">标题</div><input type="text" name="title" id="title" placeholder="输入标题"/></span></div>
         <div class="p-add-category"><span><div class="mb5">分类</div><button>业内动态</button><button>协会活动</button><button>协会会刊</button><button>其它信息</button></span></div>
         <div class="mb5">内容</div>
-        <textarea id="editor" name="editor" placeholder=""></textarea>
+        <textarea id="content" name="content" placeholder="输入内容"></textarea>
 
-        <div class="p-add-tag"><span><div class="mb5">标签</div><input type="text" placeholder="输入标签，用 , 隔开"/></span></div>
-        <button class="key">增加</button>
+        <div class="p-add-tag"><span><div class="mb5">标签</div><input type="text" name="tag" id="tag" placeholder="输入标签，用 , 隔开"/></span></div>
+        <button class="key"><input type="submit" value="增加" /></button>
         <button>取消</button>
+        </form>
     </div>
 </div>
 

@@ -24,4 +24,6 @@ public class FiledsConstant {
 	public static final String UPLOAD_PERFIX_PATH = "/news/images/" ;
 	public static final String DOWNLOAD_PERFIX_PATH = "/news/doc/" ;
 
+	public static final String SEARCH_REG_STR = "([\u4e00-\u9fa5] |[0-9]|[a-z]|[A-Z]){1,20}";
+	
 }
