@@ -12,16 +12,16 @@ import java.util.List;
 public enum NewsTypeEnum {
 
 	// 活动
-	ACTIVITY_NEWS(1, "活动类新闻"),
+	ACTIVITY_NEWS(1, "协会活动"),
 
 	// 公告
 	NOTICE_NEWS(2, "公告类新闻"),
 
 	// 动态
-	DYNAMIC_NEWS(3, "动态类新闻"),
+	DYNAMIC_NEWS(3, "协会会刊"),
 
 	// 其他
-	OTHER_NEWS(4, "其他类型新闻"),
+	OTHER_NEWS(4, "其它信息"),
 	
 	// 其他
 	GREAT_NEWS(5, "大事记新闻");

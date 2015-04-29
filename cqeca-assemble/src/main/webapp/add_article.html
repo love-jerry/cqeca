@@ -12,16 +12,18 @@
 
 <div id="content">
     <div class="p-add">
+    	<form action="/cqeca/manager/preview" method="post" target="_blank">
         <div class="p-add-fun"><h2>新增文章</h2></div>
-        <div class="p-add-title"><span><div class="mb5">标题</div><input type="text" placeholder="输入标题"/></span></div>
+        <div class="p-add-title"><span><div class="mb5">标题</div><input type="text" placeholder="输入标题" name="title"/></span></div>
         <div class="p-add-category"><span><div class="mb5">分类</div><button class="selectedCate">业内动态</button><button>协会活动</button><button>协会会刊</button><button>其它信息</button></span></div>
         <div class="mb5">内容</div>
-        <textarea id="editor" name="editor" placeholder=""></textarea>
+        <textarea id="editor" name="content" placeholder=""></textarea>
 
         <div class="p-add-tag"><span><div class="mb5">标签</div><input type="text" placeholder="输入标签，用 , 隔开"/></span></div>
         <button class="key" id="add_post">增加</button>
         <button class="key" id="preview_post">预览</button>
-        <button>取消</button>
+        <button type="submit">取消</button>
+        </form>
     </div>
 </div>
 
@@ -175,7 +177,7 @@
         },
         submitPushPost: function (o) {
             o.on('click', function () {
-                if (_.checkForm()) {
+               if (!_.checkForm()) {
                     return false;
                 }
                 var content = $('#content'),
@@ -183,30 +185,30 @@
                             'title': $('input', $('.p-add-title')).val(),
                             'category': $('.p-add-category', content).find('.selectedCate').text(),
                             'content': $('#editor').wysiwyg('shell').getHTML(),
-                            'tag': $('.p-add-tag', content).find('input').val().split('，')
+                            'tag': $('.p-add-tag', content).find('input').val()
                         };
                 console.log(postObj);
                 req.pushPost({data: postObj}, function (data){
                     // if success, forward to back manager main page
                     if (data['code'] === '200') {
-                        // TODO 跳转到后台文章管理
+                        window.location.href='/cqeca/manager/main'; 
                     }
                 });
             });
         },
         previewPost: function (o) {
-            var postObj = {
-                'title': $('input', $('.p-add-title')).val(),
-                'date': _.getCurrentDate(),
-                'content': $('#editor').wysiwyg('shell').getHTML()
-            };
-            console.log(postObj);
             o.click(function () {
-                if (_.checkForm()) {
+                if (!_.checkForm()) {
                     return false;
                 }
+                var postObj = {
+                    'title': $('input', $('.p-add-title')).val(),
+                    'date': _.getCurrentDate(),
+                    'content': $('#editor').wysiwyg('shell').getHTML()
+                };
+                console.log(postObj);
                 // 跳转到新页面，预览页面
-                req.previewPost({data: postObj});
+                req.previewPost({data: postObj} );
             });
         },
         getCurrentDate: function () {
@@ -238,7 +240,7 @@
         pushPost: function (options, callback) {
             $.ajax($.extend({
                 type: 'POST',
-                url: '/article/add',
+                url: '/cqeca/manager/publish',
                 dataType: 'JSON'
             }, options, true)).done(function(data){
                 if (data && $.isFunction(callback)) {
@@ -249,7 +251,7 @@
         previewPost: function (options, callback) {
             $.ajax($.extend({
                 type: 'POST',
-                url: '/article/preview',
+                url: '/cqeca/manager/preview',
                 dataType: 'JSON'
             }, options, true)).done(function(data){
                 if (data && $.isFunction(callback)) {

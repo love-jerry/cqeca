@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.cqeca.service.news.NewsService;
-import com.cqeca.web.annotation.FilterCheckUrl;
+import com.cqeca.util.constant.FiledsConstant;
 
 /**
  * @ClassName: AdminIndexController
@@ -32,14 +32,18 @@ public class AdminIndexController {
 	 * @return
 	 */
 	@RequestMapping(value = "/main")
-	public String toManagerIndex(int start,int pageSize,Model model) {
+	public String toManagerIndex(Integer start,Integer pageSize,Model model) {
 		logger.info("welcome to manager index page!");
+		if(start == null ) {
+			start = 1;
+		}
+		if(pageSize == null) {
+			pageSize = FiledsConstant.DEFAULT_PAGE_SIZE;
+		}
 		
+		model.addAllAttributes(newsService.findAllNews(start, pageSize));
 		
-		
-		
-		
-		return "manager_index";
+		return "backManager";
 	}
 
 }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.cqeca.service.news.NewsService;
 import com.cqeca.service.news.form.NewsDetailForm;
+import com.cqeca.service.news.form.NewsForm;
 import com.cqeca.util.constant.FiledsConstant;
 
 /**
@@ -43,7 +44,7 @@ public class NewsController {
 	@RequestMapping(value="/great_news")
 	public String getGreatNews(Model model) {
 		logger.info("welcome to great news page!");
-		List<NewsDetailForm> greatNewsList = newsService.queryGreatNews();
+		List<NewsForm> greatNewsList = newsService.queryGreatNews();
 		model.addAttribute("greatNews", greatNewsList);
 		return "/great_news";
 	}
@@ -51,7 +52,7 @@ public class NewsController {
 	@RequestMapping(value="/find_news")
 	public String findNews(int newsType,int start,int pageSize,Model model) {
 		logger.info("welcome to find news page!");
-		List<NewsDetailForm> newsList = newsService.queryNews(newsType, start, pageSize);
+		List<NewsForm> newsList = newsService.queryNews(newsType, start, pageSize);
 		model.addAttribute("newsList", newsList);
 		return "/news_list";
 	}
@@ -69,7 +70,7 @@ public class NewsController {
 				logger.error("搜索新闻跳转首页错误",e);
 			}
 		}
-		List<NewsDetailForm> newsList = newsService.queryNewsByLabel(label);
+		List<NewsForm> newsList = newsService.queryNewsByLabel(label);
 		model.addAttribute("newsList", newsList);
 		return "/news_list";
 	}

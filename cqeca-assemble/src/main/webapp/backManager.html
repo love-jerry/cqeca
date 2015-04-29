@@ -3,9 +3,9 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
-    <link rel="stylesheet" href="css/backend.css"/>
-    <link rel="stylesheet" href="css/pagination.css"/>
-    <link rel="stylesheet" href="css/font-awesome.css"/>
+    <link rel="stylesheet" href="../css/backend.css"/>
+    <link rel="stylesheet" href="../css/pagination.css"/>
+    <link rel="stylesheet" href="../css/font-awesome.css"/>
 
 </head>
 <body>
@@ -19,11 +19,13 @@
         <div id="pagination"></div>
         <div class="cb"></div>
     </div>
-    <div class="b-add-post"><button>新增文章</button></div>
+    <form action="/cqeca/manager/add_article" method="get">
+    <div class="b-add-post"><button type="submit">新增文章</button></div>
+    </form>
 </div>
 
-<script type="text/javascript" src="js/jquery-1.10.0.min.js"></script>
-<script type="text/javascript" src="js/jquery.pagination.js"></script>
+<script type="text/javascript" src="../js/jquery-1.10.0.min.js"></script>
+<script type="text/javascript" src="../js/jquery.pagination.js"></script>
 <script type="text/javascript">
 
     var testData = [{

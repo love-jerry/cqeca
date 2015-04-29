@@ -22,9 +22,11 @@ import org.springframework.stereotype.Service;
 import com.cqeca.dao.mongodb.NewsDao;
 import com.cqeca.dao.mongodb.pojo.NewsModel;
 import com.cqeca.service.news.form.NewsDetailForm;
+import com.cqeca.service.news.form.NewsForm;
 import com.cqeca.util.constant.FiledsConstant;
 import com.cqeca.util.enums.NewsTypeEnum;
 import com.cqeca.util.tools.DateFormatUtil;
+import com.cqeca.util.tools.PageUtil;
 import com.cqeca.util.tools.UUIDUtil;
 
 /**
@@ -49,7 +51,7 @@ public class NewsService {
 	 * @param content
 	 */
 	public void saveNews(String userId,NewsTypeEnum newsType,String title,String content,String label) {
-		logger.info("进入【发布新闻】方法，入参[userId=" + userId + ",newsType=" + newsType.getMessage() + ",title=" + title + "]");
+		logger.info("进入【发布新闻】方法，入参[userId=" + userId + ",newsType=" + newsType + ",title=" + title + "]");
 		Date nowDate = Calendar.getInstance().getTime();
 		NewsModel newsModel = new NewsModel();
 		newsModel.setNewsId(UUIDUtil.uuid());
@@ -148,7 +150,7 @@ public class NewsService {
 	 * 查询所有大事记新闻(默认查询1000条)
 	 * @return
 	 */
-	public List<NewsDetailForm> queryGreatNews() {
+	public List<NewsForm> queryGreatNews() {
 		List<NewsModel> greatNews = findNewsByType(NewsTypeEnum.OTHER_NEWS,1000);
 		return changeViewData(greatNews);
 	}
@@ -159,7 +161,7 @@ public class NewsService {
 	 * @param pageSize
 	 * @return
 	 */
-	public List<NewsDetailForm> queryNews(int newsType,int start,int pageSize) {
+	public List<NewsForm> queryNews(int newsType,int start,int pageSize) {
 		List<NewsModel> greatNews = findNewsByPage(newsType,start,pageSize);
 		return changeViewData(greatNews);
 	}
@@ -169,7 +171,7 @@ public class NewsService {
 	 * @param label
 	 * @return
 	 */
-	public List<NewsDetailForm> queryNewsByLabel(String label) {
+	public List<NewsForm> queryNewsByLabel(String label) {
 		Pattern pattern = Pattern.compile("^label$", Pattern.CASE_INSENSITIVE);
 		Criteria criteria =  Criteria.where("label").regex(pattern);
 		Query query = new Query(criteria);
@@ -240,11 +242,27 @@ public class NewsService {
 	 * 查询所有新闻，按发布时间排序
 	 * @return
 	 */
-	public List<NewsModel> findAllNews() {
+	public Map<String,Object> findAllNews(int start,int pageSize) {
 		Criteria criteria = new Criteria();
 		Query query = new Query(criteria);
 		query.with(new Sort(Sort.Direction.DESC, "publishTime"));
-		return newsDao.findMany(query);
+		query.skip((start-1)*pageSize);
+		query.limit(pageSize);
+		List<NewsForm> newsList = changeViewData(newsDao.findMany(query));
+		
+		List<NewsModel> all = newsDao.findAll();
+		if(null == all ) {
+			all = new ArrayList<NewsModel>();
+			newsList = new ArrayList<NewsForm>();
+		}
+		Map<String,Object> dataMap = new HashMap<String,Object>();
+
+		dataMap.put("page", start);
+		dataMap.put("pageSize", pageSize);
+		dataMap.put("list", newsList);
+		dataMap.put("totalPage", PageUtil.calulatPageCount(all.size(), pageSize));
+		
+		return dataMap;
 	}
 	
 	/**
@@ -255,16 +273,16 @@ public class NewsService {
 		newsDao.remove(newsId);
 	}
 	
-	/**
+	/*
 	 * 封装视图需要新闻字段
 	 * @param news
 	 * @return
 	 */
-	private List<NewsDetailForm> changeViewData(List<NewsModel> news) {
-		List<NewsDetailForm> viewNews = new ArrayList<NewsDetailForm>();
-		NewsDetailForm newsForm = null;
+	private List<NewsForm> changeViewData(List<NewsModel> news) {
+		List<NewsForm> viewNews = new ArrayList<NewsForm>();
+		NewsForm newsForm = null;
 		for(NewsModel newsModel : news) {
-			newsForm = new NewsDetailForm();
+			newsForm = new NewsForm();
 			newsForm.setLink(FiledsConstant.NEWS_DETAIL_URL + newsModel.getNewsId());
 			newsForm.setTitle(newsModel.getTitle());
 			newsForm.setDate(DateFormatUtil.dtSimpleFormat(newsModel.getPublishTime()));

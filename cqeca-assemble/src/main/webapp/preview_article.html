@@ -3,7 +3,7 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
-    <link rel="stylesheet" href="css/backend.css"/>
+    <link rel="stylesheet" href="../css/backend.css"/>
 </head>
 <body>
 
@@ -11,32 +11,14 @@
     <div class="p-preview">
         <div class="p-preview-all"><h2>新增文章预览</h2></div>
         <div class="p-preview-all-info">
-            <div class="title"><h1></h1></div>
-            <div class="date"></div>
-            <div class="content"></div>
+            <div class="title"><h1>${title}</h1></div>
+            <div class="date">${date}</div>
+            <div class="content">${content}</div>
         </div>
 
     </div>
 </div>
 
-<script type="text/javascript" src="js/jquery-1.10.0.min.js"></script>
-<script type="text/javascript">
-
-    var data = {
-        'title': 'test',
-        'date': '2015-02-03',
-        'content': '<p style="margin: 0px; padding: 0px;">你是否发现，当你新建一个自定义文章类型后，在后台的文章管理列表，仅仅只显示文章标题和日期？但事实上文章还包含很多信息，比如作者、分类、评论等，本片<br></p><p style="margin: 0px; padding: 0px;"><br></p><p style="margin: 0px; padding: 0px;">你是否发现，当你新建一个自定义文章类型后，在后台的文章管理列表，仅仅只显示文章标题和日期？但事实上文章还包含很多信息，比如作者、分类、评论等，本片<br></p><p style="margin: 0px; padding: 0px;">你是否发现，当你新建一个自定义文章类型后，在后台的文章管理列表，仅仅只显示文章标题和日期？但事实上文章还包含很多信息，比如作者、分类、评论等，本片<br></p><p style="margin: 0px; padding: 0px;">你是否发现，当你新建一个自定义文章类型后，在后台的文章管理列表，仅仅只显示文章标题和日期？但事实上文章还包含很多信息，比如作者、分类、评论等，本片<span style="color: rgb(84, 84, 84); font-family: arial, sans-serif; font-size: small; line-height: 24.9199981689453px; background-color: rgb(255, 255, 255);"><br></span></p>'
-    };
-
-    $(function () {
-        // 预览功能
-        var preview = $('.p-preview'), title = $('.title', preview), date = $('.date', preview), content = $('.content', preview);
-        title.find('h1').append(data['title']);
-        date.append(data['date']);
-        content.append(data['content']);
-    });
-
-</script>
 
 </body>
 </html>
