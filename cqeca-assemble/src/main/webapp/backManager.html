@@ -3,52 +3,10 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
+    <link rel="stylesheet" href="css/backend.css"/>
     <link rel="stylesheet" href="css/pagination.css"/>
-    <style>
-        body {
-            color: #333;
-            background-color: #f2f2f2;
-            font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
-        }
-        #b-content {
-            margin: 0 auto;
-            margin-top: 56px;
-            width: 800px;
-        }
-        #b-content .b-manager .b-manager-list ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        .b-manager {
-            margin-bottom: 20px;
-        }
-        .b-manager-list ul li {
-            line-height: 35px;
-            border-bottom: 1px solid #999;
-        }
-        .b-manager-list ul li span {
-            margin-right: 20px;
-        }
-        .b-add-post button {
-            font-weight: bold;
-            font-family: Segoe UI, Microsoft YaHei, sans-serif;
-            height: 50px;
-            width: 100px;
-            background-color: #fff;
-            cursor: pointer;
-            border: 2px solid #999;
-            transition: color .2s ease-in, background-color .2s ease-in, border-color .2s ease-in;
-            margin-bottom: 20px;
-        }
-        .b-add-post button:hover {
-            color: #ffffff;
-            background-color: #ef4036;
-            border-color: #ef4036;
-        }
-        .cb {
-            clear: both;
-        }
-    </style>
+    <link rel="stylesheet" href="css/font-awesome.css"/>
+
 </head>
 <body>
 
@@ -70,57 +28,57 @@
 
     var testData = [{
         'id': 1,
-        'title': 'test',
+        'title': '千色店',
         'cate': '文化',
         'date': '2015-02-03'
     }, {
         'id': 2,
-        'title': 'test',
+        'title': '切入点',
         'cate': '文化',
         'date': '2015-02-03'
     }, {
         'id': 3,
-        'title': 'test',
+        'title': '铁饭碗',
         'cate': '文化',
         'date': '2015-02-03'
     }, {
         'id': 4,
-        'title': 'test',
+        'title': '无上光荣',
         'cate': '文化',
         'date': '2015-02-03'
     }, {
         'id': 5,
-        'title': 'test',
+        'title': '晵',
         'cate': '文化',
         'date': '2015-02-03'
     }, {
         'id': 6,
-        'title': 'test',
+        'title': '是否通过',
         'cate': '文化',
         'date': '2015-02-03'
     }, {
         'id': 7,
-        'title': 'test',
+        'title': '围着呢',
         'cate': '文化',
         'date': '2015-02-03'
     }, {
         'id': 8,
-        'title': 'test',
+        'title': '为什么这样说',
         'cate': '文化',
         'date': '2015-02-03'
     }, {
         'id': 9,
-        'title': 'test',
+        'title': '矮的网购',
         'cate': '文化',
         'date': '2015-02-03'
     }, {
         'id': 10,
-        'title': 'test',
+        'title': '剖',
         'cate': '文化',
         'date': '2015-02-03'
     }, {
         'id': 11,
-        'title': 'test',
+        'title': '宇航局',
         'cate': '文化',
         'date': '2015-02-03'
     }];
@@ -133,22 +91,27 @@
                 list = [];
 
             // Iterate through a selection of the content and build an HTML string
+            // TODO 把文章链接加入href，提供预览功能
             for (var i = page_index * items_per_page; i < max_elem; i++) {
                 var item = testData[i];
-                list.push('<li data-id="' + item['id'] + '"><span><a href="javascript:;">删除</a></span><span>' + item['date'] + '</span><span>' + item['cate'] + '</span><span>' + item['title'] + '</span></li>');
+                list.push('<li data-id="' + item['id'] + '"><span class="post-remove"><a href="javascript:;" title="删除"><i class="fa fa-remove"></i></a></span><span>' + item['date'] + '</span><span>' + item['cate'] + '</span><span class="pre-post"><a href="#">' + item['title'] + '</a></span></li>');
 
             }
-
             // Replace old content with new content
             $('ul', $('.b-manager-list')).empty().append(list.join(''));
 
-            _.bindDelete($('a', $('ul')));
+            _.bindEvent($('li'),$('.post-remove', $('ul')));
 
             // Prevent click event propagation
             return false;
         },
-        bindDelete: function (o) {
-            o.click(function () {
+        bindEvent: function (o1, o2) {
+            o1.mouseover(function () {
+                $(this).find('.post-remove').css('visibility', 'visible');
+            }).mouseleave(function () {
+                $(this).find('.post-remove').css('visibility', 'hidden');
+            });
+            o2.click(function () {
                 var thiz = $(this),
                     id = thiz.parent('li').attr('data-id');
                 //  这个删除行是临时代码
@@ -194,10 +157,10 @@
 
     $(function () {
 
-//        // 主要生成方法
+        // TODO 接口好了，就用此方法
 //        req.getAllPost({}, function (data) {
 //            // init the pagination
-//            $("#Pagination").pagination(num_entries, {
+//            $("#Pagination").pagination(data.length, {
 //                callback: _.pageselectCallback,
 //                prev_text: "前一页",
 //                next_text: "后一页"

@@ -2,9 +2,12 @@ package com.cqeca.web.admin.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.cqeca.service.news.NewsService;
 import com.cqeca.web.annotation.FilterCheckUrl;
 
 /**
@@ -16,12 +19,26 @@ import com.cqeca.web.annotation.FilterCheckUrl;
 @Controller
 @RequestMapping(value="/manager")
 public class AdminIndexController {
+	
+	@Autowired
+	private NewsService newsService;
 
 	private static final Logger logger = LoggerFactory.getLogger(AdminIndexController.class);
 
+	/**
+	 * 新闻管理页面
+	 * @param start
+	 * @param pageSize
+	 * @return
+	 */
 	@RequestMapping(value = "/main")
-	public String toManagerIndex() {
+	public String toManagerIndex(int start,int pageSize,Model model) {
 		logger.info("welcome to manager index page!");
+		
+		
+		
+		
+		
 		return "manager_index";
 	}
 

@@ -26,4 +26,6 @@ public class FiledsConstant {
 
 	public static final String SEARCH_REG_STR = "([\u4e00-\u9fa5] |[0-9]|[a-z]|[A-Z]){1,20}";
 	
+	public static final int DEFAULT_PAGE_SIZE = 10;
+	
 }
