@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="css/pagination.css"/>
+    <style>
+        body {
+            color: #333;
+            background-color: #f2f2f2;
+            font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+        }
+        #b-content {
+            margin: 0 auto;
+            margin-top: 56px;
+            width: 800px;
+        }
+        #b-content .b-manager .b-manager-list ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .b-manager {
+            margin-bottom: 20px;
+        }
+        .b-manager-list ul li {
+            line-height: 35px;
+            border-bottom: 1px solid #999;
+        }
+        .b-manager-list ul li span {
+            margin-right: 20px;
+        }
+        .b-add-post button {
+            font-weight: bold;
+            font-family: Segoe UI, Microsoft YaHei, sans-serif;
+            height: 50px;
+            width: 100px;
+            background-color: #fff;
+            cursor: pointer;
+            border: 2px solid #999;
+            transition: color .2s ease-in, background-color .2s ease-in, border-color .2s ease-in;
+            margin-bottom: 20px;
+        }
+        .b-add-post button:hover {
+            color: #ffffff;
+            background-color: #ef4036;
+            border-color: #ef4036;
+        }
+        .cb {
+            clear: both;
+        }
+    </style>
+</head>
+<body>
+
+<div id="b-content">
+    <h1>后台文章管理</h1>
+    <div class="b-manager">
+        <div class="b-manager-list">
+            <ul></ul>
+        </div>
+        <div id="pagination"></div>
+        <div class="cb"></div>
+    </div>
+    <div class="b-add-post"><button>新增文章</button></div>
+</div>
+
+<script type="text/javascript" src="js/jquery-1.10.0.min.js"></script>
+<script type="text/javascript" src="js/jquery.pagination.js"></script>
+<script type="text/javascript">
+
+    var testData = [{
+        'id': 1,
+        'title': 'test',
+        'cate': '文化',
+        'date': '2015-02-03'
+    }, {
+        'id': 2,
+        'title': 'test',
+        'cate': '文化',
+        'date': '2015-02-03'
+    }, {
+        'id': 3,
+        'title': 'test',
+        'cate': '文化',
+        'date': '2015-02-03'
+    }, {
+        'id': 4,
+        'title': 'test',
+        'cate': '文化',
+        'date': '2015-02-03'
+    }, {
+        'id': 5,
+        'title': 'test',
+        'cate': '文化',
+        'date': '2015-02-03'
+    }, {
+        'id': 6,
+        'title': 'test',
+        'cate': '文化',
+        'date': '2015-02-03'
+    }, {
+        'id': 7,
+        'title': 'test',
+        'cate': '文化',
+        'date': '2015-02-03'
+    }, {
+        'id': 8,
+        'title': 'test',
+        'cate': '文化',
+        'date': '2015-02-03'
+    }, {
+        'id': 9,
+        'title': 'test',
+        'cate': '文化',
+        'date': '2015-02-03'
+    }, {
+        'id': 10,
+        'title': 'test',
+        'cate': '文化',
+        'date': '2015-02-03'
+    }, {
+        'id': 11,
+        'title': 'test',
+        'cate': '文化',
+        'date': '2015-02-03'
+    }];
+
+    var _ = {
+        pageselectCallback: function(page_index, jq){
+            // Get number of elements per pagionation page from form
+            var items_per_page = 15,
+                max_elem = Math.min((page_index + 1) * items_per_page, testData.length),
+                list = [];
+
+            // Iterate through a selection of the content and build an HTML string
+            for (var i = page_index * items_per_page; i < max_elem; i++) {
+                var item = testData[i];
+                list.push('<li data-id="' + item['id'] + '"><span><a href="javascript:;">删除</a></span><span>' + item['date'] + '</span><span>' + item['cate'] + '</span><span>' + item['title'] + '</span></li>');
+
+            }
+
+            // Replace old content with new content
+            $('ul', $('.b-manager-list')).empty().append(list.join(''));
+
+            _.bindDelete($('a', $('ul')));
+
+            // Prevent click event propagation
+            return false;
+        },
+        bindDelete: function (o) {
+            o.click(function () {
+                var thiz = $(this),
+                    id = thiz.parent('li').attr('data-id');
+                //  这个删除行是临时代码
+                thiz.parents('li').remove();
+
+                // 如果接口好了，用以下代码
+//                req.deletePostById({data: id}, function (data) {
+//                    // if success, remove the relevant DOM
+//                    if (data['code'] === 200) {
+//                        thiz.parents('li').remove();
+//                    } else {
+//                        console.log('Error!');
+//                    }
+//                });
+            });
+        }
+    };
+
+    var req = {
+        getAllPost: function (options, callback) {
+            $.ajax($.extend({
+                type: 'POST',
+                url: '/getAllPost',
+                dataType: 'JSON'
+            }, options, true)).done(function(data){
+                if (data && $.isFunction(callback)) {
+                    callback(data);
+                }
+            });
+        },
+        deletePostById: function (options, callback) {
+            $.ajax($.extend({
+                type: 'POST',
+                url: '/deletePostById',
+                dataType: 'JSON'
+            }, options, true)).done(function(data){
+                if (data && $.isFunction(callback)) {
+                    callback(data);
+                }
+            });
+        }
+    };
+
+    $(function () {
+
+//        // 主要生成方法
+//        req.getAllPost({}, function (data) {
+//            // init the pagination
+//            $("#Pagination").pagination(num_entries, {
+//                callback: _.pageselectCallback,
+//                prev_text: "前一页",
+//                next_text: "后一页"
+//            });
+//        });
+
+        // init the pagination
+        $("#pagination").pagination(testData.length, {
+            callback: _.pageselectCallback,
+            prev_text: "前一页",
+            next_text: "后一页"
+        });
+
+    });
+</script>
+</body>
+</html>

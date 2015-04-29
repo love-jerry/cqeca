@@ -1,0 +1,102 @@
+body {
+    color: #333;
+    background-color: #f2f2f2;
+    font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+}
+
+#content {
+    margin: 0 auto;
+    margin-top: 56px;
+    width: 800px;
+}
+
+.p-add div {
+    /*height: 50px;*/
+}
+
+.p-add-title input, .p-add-category input, .p-add-tag input, .p-add-source input {
+    border: 2px solid #999;
+    font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+    outline: none;
+    height: 25px;
+    padding: 5px;
+}
+
+.p-add-title, .p-add-category, .p-add-tag, .p-add-source {
+    height: 80px;
+}
+
+.p-add-category input, .p-add-tag input, .p-add-source input {
+    width: 350px;
+}
+
+.p-add-title input {
+    width: 500px;
+}
+
+.p-add-tag {
+    margin-top: 10px;
+}
+
+.p-add button {
+    font-weight: bold;
+    font-family: Segoe UI, Microsoft YaHei, sans-serif;
+    height: 50px;
+    width: 100px;
+    background-color: #fff;
+    cursor: pointer;
+    /*margin-top: 20px;*/
+    border: 2px solid #999;
+    transition: color .2s ease-in, background-color .2s ease-in, border-color .2s ease-in;
+    margin-bottom: 20px;
+}
+
+.selectedCate {
+    background-color: #ef4036!important;
+    color: #ffffff;
+    border-color: #ef4036;
+    outline: none;
+}
+
+.p-add button:hover {
+    color: #ffffff;
+    background-color: #ef4036;
+    border-color: #ef4036;
+}
+
+.p-add-category button {
+    height: 40px;
+    width: 120px;
+    background-color: #e6e6e6;
+    margin-right: 10px;
+}
+
+.p-add .key {
+    color: #ef4036;
+}
+
+.p-add .mb5 {
+    margin-bottom: 5px;
+}
+
+/******************************font size plugin******************************/
+/* CSS for the font-name + font-size plugin */
+.wysiwyg-plugin-list {
+    max-height: 16em;
+    overflow: auto;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+.wysiwyg-plugin-list a,
+.wysiwyg-plugin-list a:link,
+.wysiwyg-plugin-list a:visited {
+    display: block;
+    color: black;
+    padding: 5px 10px;
+    text-decoration: none;
+    cursor: pointer;
+}
+.wysiwyg-plugin-list a:hover {
+    color: HighlightText;
+    background-color: Highlight;
+}

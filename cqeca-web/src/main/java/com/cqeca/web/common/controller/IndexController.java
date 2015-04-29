@@ -1,18 +1,15 @@
 package com.cqeca.web.common.controller;
 
-import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.cqeca.service.news.NewsService;
-import com.cqeca.service.news.form.NewsDetailForm;
-import com.cqeca.util.constant.FiledsConstant;
 
 /**
  * @ClassName: IndexController
@@ -29,11 +26,10 @@ public class IndexController {
 	private static final Logger logger = LoggerFactory.getLogger(IndexController.class);
 
 	@RequestMapping(value = "/index")
-	public String toIndex(Model model) {
+	public String toIndex(ModelMap model) {
 		logger.info("welcome to index page!");
 		Map<String, Map<String,Object>> newsMap = newsService.findIndexNews();
 		model.addAllAttributes(newsMap);
-		logger.info("data:" + model);
 		return "index";
 	}
 

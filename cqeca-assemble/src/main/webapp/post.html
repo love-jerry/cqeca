@@ -65,5 +65,31 @@
 <script type="text/javascript" src="js/index.js"></script>
 <script type="text/javascript" src="js/jquery-picscroll.js"></script>
 <script type="text/javascript" src="js/jquery.pagination.js"></script>
+<script type="text/javascript">
+
+    $(function () {
+        var postDetailData = {
+            moduleH: '业内动态',
+            title: 'H&M电商平台年内上线 快时尚进攻电商市场',
+            date: '2015-02-03',
+            content: '<div>as</div><div>dsa</div><div>ds</div><div>ad</div><div><div>sadsaaaaaaaaaaaaaaa</div><div><br></div>',
+            previousPost: {
+                link: 'http://luolinjia.com',
+                title: '中国服装企业的电商化运营'
+            },
+            nextPost: {
+                link: 'http://luolinjia.com',
+                title: '中国服装品牌所带来的启发一样'
+            }
+        };
+
+        var dom = '<div class="m-box"><div class="m-header"><img src="images/list_ico.gif" /><span>' + postDetailData['moduleH'] + '</span></div><div class="m-detail-post"><div class="m-detail-post-title">'  + postDetailData['title'] + '</div><div class="m-detail-post-date">' + postDetailData['date'] + '</div><div class="m-detail-post-content">' + postDetailData['content'] + '</div><div class="m-detail-post-link"><div class="previous">上一条：<a href="' + postDetailData['previousPost']['link'] + '">' + postDetailData['previousPost']['title'] + '</a></div><div class="next">下一条：<a href="' + postDetailData['nextPost']['link'] + '">' + postDetailData['nextPost']['title'] + '</a></div></div></div></div>';
+
+        $('.c-m-content-right').empty().append(dom);
+
+    });
+
+</script>
+
 </body>
 </html>

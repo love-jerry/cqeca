@@ -35,7 +35,7 @@ public class LoginController {
 	@FilterCheckUrl(value=false)
 	@RequestMapping(value="/index")
 	public String toLoginIndex() {
-		return "/login";
+		return "login";
 	}
 	
 	/**
@@ -56,7 +56,7 @@ public class LoginController {
 				return "login";	
 			}
 			request.getSession().setAttribute(FiledsConstant.SESSION_KEY, sessionEntity);
-			return "/add_article";
+			return "add_article";
 		} catch (Exception e) {
 			logger.error("登录失败");
 			return "error";
@@ -74,7 +74,7 @@ public class LoginController {
 			session.removeAttribute(FiledsConstant.SESSION_KEY);
 			session.invalidate();
 		}
-		return "manager_login";
+		return "login";
 	}
 
 }

@@ -86,7 +86,7 @@ public class NewsService {
 		activity_news_map.put("boxH", "协会活动");
 		activity_news_map.put("boxLink", "活动新闻");
 		activity_news_map.put("list", JSONArray.fromObject(changeViewData(activityNews)));
-		newsMap.put(FiledsConstant.ACTIVITY_NEWS_KEY, activity_news_map);
+		newsMap.put(FiledsConstant.ACTIVITY_NEWS_KEY, JSONObject.fromObject(activity_news_map));
 		
 		Map<String,Object> dynamic_news_map = new HashMap<String,Object>();
 		dynamic_news_map.put("boxH", "协会动态");

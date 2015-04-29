@@ -3,91 +3,204 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
-    <script type="text/javascript" src="js/jquery-1.10.0.min.js"></script>
-    <script type="text/javascript">
+    <link rel="stylesheet" href="../css/backend.css"/>
+    <link rel="stylesheet" href="../css/wysiwyg-editor.css"/>
+    <link rel="stylesheet" href="../css/font-awesome.css"/>
 
-    </script>
-    <style>
-        body {
-            background-color: #f2f2f2;
-            color: #333;
-            font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
-        }
-        #content {
-            margin: 0 auto;
-            margin-top: 56px;
-            width: 800px;
-        }
-        .p-add div {
-            /*height: 50px;*/
-        }
-        .p-add-title input, .p-add-category input, .p-add-tag input, .p-add-source input {
-            font-family:  "Segoe UI", "Microsoft YaHei", sans-serif;
-            border: 2px solid #999;
-            height: 25px;
-            outline: none;
-            padding: 5px;
-        }
-        .p-add-title, .p-add-category, .p-add-tag, .p-add-source {
-            height: 80px;
-        }
-        .p-add-category input, .p-add-tag input, .p-add-source input {
-            width: 350px;
-        }
-        .p-add-title input {
-            width: 500px;
-        }
-        .p-add-tag {
-            margin-top: 10px;
-        }
-        .p-add button {
-            font-family: Segoe UI, Microsoft YaHei, sans-serif;
-            font-weight: bold;
-            width: 100px;
-            height: 50px;
-            cursor: pointer;
-            background-color: #fff;
-            border: 2px solid #999;
-            /*margin-top: 20px;*/
-            margin-bottom: 20px;
-            transition: color .2s ease-in, background-color .2s ease-in, border-color .2s ease-in;
-        }
-        .p-add button:hover {
-            background-color: #ef4036;
-            color: #ffffff;
-            border-color: #ef4036;
-        }
-        .p-add-category button {
-            width: 120px;
-            height: 40px;
-            margin-right: 10px;
-            background-color: #e6e6e6;
-        }
-        .p-add .key {
-            color: #ef4036;
-        }
-        .p-add .mb5 {
-            margin-bottom: 5px;
-        }
-    </style>
 </head>
 <body>
 
 <div id="content">
     <div class="p-add">
-    	<form action="/cqeca/manager/publish" method="post">
         <div class="p-add-fun"><h2>新增文章</h2></div>
-        <div class="p-add-title"><span><div class="mb5">标题</div><input type="text" name="title" id="title" placeholder="输入标题"/></span></div>
-        <div class="p-add-category"><span><div class="mb5">分类</div><button>业内动态</button><button>协会活动</button><button>协会会刊</button><button>其它信息</button></span></div>
+        <div class="p-add-title"><span><div class="mb5">标题</div><input type="text" placeholder="输入标题"/></span></div>
+        <div class="p-add-category"><span><div class="mb5">分类</div><button class="selectedCate">业内动态</button><button>协会活动</button><button>协会会刊</button><button>其它信息</button></span></div>
         <div class="mb5">内容</div>
-        <textarea id="content" name="content" placeholder="输入内容"></textarea>
+        <textarea id="editor" name="editor" placeholder=""></textarea>
 
-        <div class="p-add-tag"><span><div class="mb5">标签</div><input type="text" name="tag" id="tag" placeholder="输入标签，用 , 隔开"/></span></div>
-        <button class="key"><input type="submit" value="增加" /></button>
+        <div class="p-add-tag"><span><div class="mb5">标签</div><input type="text" placeholder="输入标签，用 , 隔开"/></span></div>
+        <button class="key" id="add_post">增加</button>
         <button>取消</button>
-        </form>
     </div>
 </div>
+
+<script type="text/javascript" src="../js/jquery-1.10.0.min.js"></script>
+<script type="text/javascript" src="../js/wysiwyg.js"></script>
+<script type="text/javascript" src="../js/wysiwyg-editor.js"></script>
+<script type="text/javascript">
+    var _ = {
+        initWysiwyg: function (o) {
+            o.wysiwyg({
+                classes: 'some-more-classes',
+                toolbar: 'top', // or top-selection
+                buttons: {
+                    removeformat: {
+                        title: '格式化文本',
+                        image: '\uf12d' // <img src="path/to/image.png" width="16" height="16" alt="" />
+                    },
+                    insertimage: {
+                        title: '插入图片',
+                        image: '\uf030', // <img src="path/to/image.png" width="16" height="16" alt="" />
+                        //showstatic: true,    // wanted on the toolbar
+                        showselection: true    // wanted on selection
+                    },
+//                    insertvideo: {
+//                        title: 'Insert video',
+//                        image: '\uf03d', // <img src="path/to/image.png" width="16" height="16" alt="" />
+//                        //showstatic: true,    // wanted on the toolbar
+//                        showselection: true    // wanted on selection
+//                    },
+                    insertlink: {
+                        title: '插入链接',
+                        image: '\uf08e' // <img src="path/to/image.png" width="16" height="16" alt="" />
+                    },
+                    // Fontsize plugin
+                    fontsize: {
+                        title: '文字大小',
+                        image: '\uf034', // <img src="path/to/image.png" width="16" height="16" alt="" />
+                        popup: function( $popup, $button ) {
+                            // Hack: http://stackoverflow.com/questions/5868295/document-execcommand-fontsize-in-pixels/5870603#5870603
+                            var list_fontsizes = [];
+                            for( var i=8; i <= 11; ++i )
+                                list_fontsizes.push(i+'px');
+                            for( var i=12; i <= 28; i+=2 )
+                                list_fontsizes.push(i+'px');
+                            list_fontsizes.push('36px');
+                            list_fontsizes.push('48px');
+                            list_fontsizes.push('72px');
+                            var $list = $('<div/>').addClass('wysiwyg-plugin-list')
+                                    .attr('unselectable','on');
+                            $.each( list_fontsizes, function( index, size ) {
+                                var $link = $('<a/>').attr('href','#')
+                                        .html( size )
+                                        .click(function(event) {
+                                            $(o).wysiwyg('shell').fontSize(7).closePopup();
+                                            $(o).wysiwyg('container')
+                                                    .find('font[size=7]')
+                                                    .removeAttr("size")
+                                                    .css("font-size", size);
+                                            // prevent link-href-#
+                                            event.stopPropagation();
+                                            event.preventDefault();
+                                            return false;
+                                        });
+                                $list.append( $link );
+                            });
+                            $popup.append( $list );
+                        }
+                        //showstatic: true,    // wanted on the toolbar
+                        //showselection: true    // wanted on selection
+                    },
+                    bold: {
+                        title: '加粗 (Ctrl+B)',
+                        image: '\uf032', // <img src="path/to/image.png" width="16" height="16" alt="" />
+                        hotkey: 'b'
+                    },
+                    italic: {
+                        title: '斜体 (Ctrl+I)',
+                        image: '\uf033', // <img src="path/to/image.png" width="16" height="16" alt="" />
+                        hotkey: 'i'
+                    },
+                    underline: {
+                        title: '下划线 (Ctrl+U)',
+                        image: '\uf0cd', // <img src="path/to/image.png" width="16" height="16" alt="" />
+                        hotkey: 'u'
+                    },
+                    strikethrough: {
+                        title: '横线 (Ctrl+S)',
+                        image: '\uf0cc', // <img src="path/to/image.png" width="16" height="16" alt="" />
+                        hotkey: 's'
+                    },
+                    forecolor: {
+                        title: '文字颜色',
+                        image: '\uf1fc' // <img src="path/to/image.png" width="16" height="16" alt="" />
+                    },
+                    highlight: {
+                        title: '背景颜色',
+                        image: '\uf043' // <img src="path/to/image.png" width="16" height="16" alt="" />
+                    }
+                },
+                submit: {
+                    title: 'Submit',
+                    image: '\uf00c' // <img src="path/to/image.png" width="16" height="16" alt="" />
+                },
+                selectImage: 'Click or drop image',
+                placeholderUrl: 'www.example.com',
+                placeholderEmbed: '<embed/>',
+                maxImageSize: [800,600],
+                onKeyPress: function( code, character, shiftKey, altKey, ctrlKey, metaKey ) {
+                    // E.g.: submit form on enter-key:
+                    //if( (code == 10 || code == 13) && !shiftKey && !altKey && !ctrlKey && !metaKey ) {
+                    //    submit_form();
+                    //    return false; // swallow enter
+                    //}
+                }
+            });
+        },
+        renderEditor: function (self) {
+            _.initWysiwyg($('#editor', self));
+        },
+        bindCate: function (o) {
+            o.click(function () {
+                var thiz = $(this);
+                if ($('.selectedCate').length === 1) {
+                    o.removeClass('selectedCate');
+                }
+                thiz.toggleClass('selectedCate');
+            });
+        },
+        checkForm: function () {
+//            var flag = true;
+            // check  title
+            $('input', $('.p-add-title')).on('keyup', function () {
+                var thiz = $(this);
+                if (thiz.val().length > 20) {
+                    thiz.val(thiz.val().substring(0, 20));
+                }
+            });
+            _.bindCate($('button', $('.p-add-category')));
+        },
+        submitPushPost: function (o) {
+            o.on('click', function () {
+                var content = $('#content'),
+                postObj = {
+                    'title': $('input', $('.p-add-title')).val(),
+                    'category': $('.p-add-category', content).find('.selectedCate').text(),
+                    'content': $('#editor').wysiwyg('shell').getHTML(),
+                    'tag': $('.p-add-tag', content).find('input').val().split('，')
+                };
+                console.log(postObj);
+                req.pushPost({data: postObj}, function (data){
+                    // if success, forward to back manager main page
+                    if (data['code'] === '200') {
+                        // TODO
+                    }
+                });
+            });
+        }
+    };
+
+    $(function () {
+        _.renderEditor($('#content'));
+        _.checkForm();
+        _.submitPushPost($('#add_post'));
+    });
+
+    var req = {
+        pushPost: function (options, callback) {
+            $.ajax($.extend({
+                type: 'POST',
+                url: '/article/add',
+                dataType: 'JSON'
+            }, options, true)).done(function(data){
+                if (data && $.isFunction(callback)) {
+                    callback(data);
+                }
+            });
+        }
+    };
+
+</script>
 
 </body>
 </html>
