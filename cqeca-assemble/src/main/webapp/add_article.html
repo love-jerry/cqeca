@@ -20,6 +20,7 @@
 
         <div class="p-add-tag"><span><div class="mb5">标签</div><input type="text" placeholder="输入标签，用 , 隔开"/></span></div>
         <button class="key" id="add_post">增加</button>
+        <button class="key" id="preview_post">预览</button>
         <button>取消</button>
     </div>
 </div>
@@ -149,8 +150,7 @@
                 thiz.toggleClass('selectedCate');
             });
         },
-        checkForm: function () {
-//            var flag = true;
+        bindTitle: function () {
             // check  title
             $('input', $('.p-add-title')).on('keyup', function () {
                 var thiz = $(this);
@@ -158,32 +158,80 @@
                     thiz.val(thiz.val().substring(0, 20));
                 }
             });
-            _.bindCate($('button', $('.p-add-category')));
+        },
+        checkForm: function () {
+            var flag = true, title = $('input', $('.p-add-title')), content = $('#editor').wysiwyg('shell').getHTML();
+            if ($.trim(title.val()) === '') {
+                alert('请完善标题！');
+                flag = false;
+                return false;
+            }
+            if ($.trim(content) === '') {
+                alert('请完善内容！');
+                flag = false;
+                return false;
+            }
+            return flag;
         },
         submitPushPost: function (o) {
             o.on('click', function () {
+                if (_.checkForm()) {
+                    return false;
+                }
                 var content = $('#content'),
-                postObj = {
-                    'title': $('input', $('.p-add-title')).val(),
-                    'category': $('.p-add-category', content).find('.selectedCate').text(),
-                    'content': $('#editor').wysiwyg('shell').getHTML(),
-                    'tag': $('.p-add-tag', content).find('input').val().split('，')
-                };
+                        postObj = {
+                            'title': $('input', $('.p-add-title')).val(),
+                            'category': $('.p-add-category', content).find('.selectedCate').text(),
+                            'content': $('#editor').wysiwyg('shell').getHTML(),
+                            'tag': $('.p-add-tag', content).find('input').val().split('，')
+                        };
                 console.log(postObj);
                 req.pushPost({data: postObj}, function (data){
                     // if success, forward to back manager main page
                     if (data['code'] === '200') {
-                        // TODO
+                        // TODO 跳转到后台文章管理
                     }
                 });
             });
+        },
+        previewPost: function (o) {
+            var postObj = {
+                'title': $('input', $('.p-add-title')).val(),
+                'date': _.getCurrentDate(),
+                'content': $('#editor').wysiwyg('shell').getHTML()
+            };
+            console.log(postObj);
+            o.click(function () {
+                if (_.checkForm()) {
+                    return false;
+                }
+                // 跳转到新页面，预览页面
+                req.previewPost({data: postObj});
+            });
+        },
+        getCurrentDate: function () {
+            var now = new Date(),
+                year = now.getFullYear(),
+                month = now.getMonth() + 1,
+                day = now.getDate();
+
+            var clock = year + "-";
+            if(month < 10) clock += "0";
+            clock += month + "-";
+            if(day < 10) clock += "0";
+            clock += day;
+
+            return(clock);
         }
+
     };
 
     $(function () {
         _.renderEditor($('#content'));
-        _.checkForm();
+        _.bindTitle();
+        _.bindCate($('button', $('.p-add-category')));
         _.submitPushPost($('#add_post'));
+        _.previewPost($('#preview_post'));
     });
 
     var req = {
@@ -191,6 +239,17 @@
             $.ajax($.extend({
                 type: 'POST',
                 url: '/article/add',
+                dataType: 'JSON'
+            }, options, true)).done(function(data){
+                if (data && $.isFunction(callback)) {
+                    callback(data);
+                }
+            });
+        },
+        previewPost: function (options, callback) {
+            $.ajax($.extend({
+                type: 'POST',
+                url: '/article/preview',
                 dataType: 'JSON'
             }, options, true)).done(function(data){
                 if (data && $.isFunction(callback)) {

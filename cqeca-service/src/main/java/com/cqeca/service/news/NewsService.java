@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -86,7 +85,7 @@ public class NewsService {
 		activity_news_map.put("boxH", "协会活动");
 		activity_news_map.put("boxLink", "活动新闻");
 		activity_news_map.put("list", JSONArray.fromObject(changeViewData(activityNews)));
-		newsMap.put(FiledsConstant.ACTIVITY_NEWS_KEY, JSONObject.fromObject(activity_news_map));
+		newsMap.put(FiledsConstant.ACTIVITY_NEWS_KEY, activity_news_map);
 		
 		Map<String,Object> dynamic_news_map = new HashMap<String,Object>();
 		dynamic_news_map.put("boxH", "协会动态");
@@ -232,11 +231,29 @@ public class NewsService {
 		Criteria criteria =  Criteria.where("newsType").is(newsType);
 		Query query = new Query(criteria);
 		query.with(new Sort(Sort.Direction.DESC, "publishTime"));
-		query.skip(start);
+		query.skip((start-1)*pageSize);
 		query.limit(pageSize);
 		return newsDao.findMany(query);
 	}
 
+	/**
+	 * 查询所有新闻，按发布时间排序
+	 * @return
+	 */
+	public List<NewsModel> findAllNews() {
+		Criteria criteria = new Criteria();
+		Query query = new Query(criteria);
+		query.with(new Sort(Sort.Direction.DESC, "publishTime"));
+		return newsDao.findMany(query);
+	}
+	
+	/**
+	 * 根据新闻id删除新闻
+	 * @param newsId
+	 */
+	public void deleteNewsById(String newsId) {
+		newsDao.remove(newsId);
+	}
 	
 	/**
 	 * 封装视图需要新闻字段

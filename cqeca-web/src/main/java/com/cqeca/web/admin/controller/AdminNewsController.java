@@ -50,4 +50,14 @@ public class AdminNewsController {
 		return "/ok";
 		
 	}
+	
+	@RequestMapping(value="/delete")
+	@ResponseBody
+	public Object deleteNews(String newsId) {
+		newsService.deleteNewsById(newsId);
+		Map<String,String> result = new HashMap<String,String>();
+		result.put("code", "1");
+		result.put("msg", "删除成功");
+		return result;
+	}
 }

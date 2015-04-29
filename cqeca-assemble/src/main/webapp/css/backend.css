@@ -100,3 +100,90 @@ body {
     color: HighlightText;
     background-color: Highlight;
 }
+
+/********************************page preview*********************************/
+.p-preview {
+
+}
+.p-preview .p-preview-all {
+
+}
+.p-preview-all-info {
+    border: 1px solid #999;
+    padding: 10px;
+}
+.p-preview-all-info .title {
+    text-align: center;
+}
+.p-preview-all-info .date {
+    text-align: center;
+    font-size: 16px;
+    color: #999;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed #999;
+}
+.p-preview-all-info .content {
+    font-family: 'SimSun', 'Microsoft YaHei', sans-serif;
+    font-size: 14px;
+    line-height: 25px;
+}
+/*********************************backManager*************************************/
+#b-content {
+    margin: 0 auto;
+    margin-top: 56px;
+    width: 800px;
+}
+#b-content .b-manager .b-manager-list ul {
+    list-style-type: none;
+    padding: 0;
+}
+.b-manager {
+    margin-bottom: 20px;
+}
+.b-manager-list ul li {
+    line-height: 35px;
+    /*border-bottom: 1px solid #999;*/
+}
+.b-manager-list ul li:hover {
+    background-color: #ccc;
+}
+.b-manager-list ul li .post-remove {
+    visibility: hidden;
+    margin-left: 10px;
+}
+.b-manager-list ul li .post-remove a {
+    color: #b50100;
+    font-size: 20px;
+}
+.b-manager-list ul li .pre-post {
+
+}
+.b-manager-list ul li .pre-post a {
+    text-decoration: none;
+}
+.b-manager-list ul li .pre-post a:hover {
+    color: #b50100;
+}
+.b-manager-list ul li span {
+    margin-right: 20px;
+}
+.b-add-post button {
+    font-weight: bold;
+    font-family: Segoe UI, Microsoft YaHei, sans-serif;
+    height: 50px;
+    width: 100px;
+    background-color: #fff;
+    cursor: pointer;
+    border: 2px solid #999;
+    transition: color .2s ease-in, background-color .2s ease-in, border-color .2s ease-in;
+    margin-bottom: 20px;
+}
+.b-add-post button:hover {
+    color: #ffffff;
+    background-color: #ef4036;
+    border-color: #ef4036;
+}
+.cb {
+    clear: both;
+}
