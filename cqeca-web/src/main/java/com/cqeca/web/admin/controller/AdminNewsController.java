@@ -58,7 +58,8 @@ public class AdminNewsController {
 		NewsTypeEnum newsType = NewsTypeEnum.getByMessage(category);
 		//handle img
 		
-		
+		String baseUrl = request.getContextPath();
+		logger.info("baseurl=" + baseUrl);
 		
 		newsService.saveNews(userId, newsType, title, content, tag);
 		Map<String,String> result = new HashMap<String,String>();
