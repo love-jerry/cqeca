@@ -254,10 +254,10 @@ public class NewsService {
 		List<NewsModel> all = newsDao.findAll();
 		Map<String,Object> dataMap = new HashMap<String,Object>();
 
-		dataMap.put("page", start);
-		dataMap.put("pageSize", pageSize);
+		dataMap.put("page", String.valueOf(start));
+		dataMap.put("pageSize", String.valueOf(pageSize));
 		dataMap.put("list", jsonArray.toString().replaceAll("\"", "'"));
-		dataMap.put("totalPage", PageUtil.calulatPageCount(all.size(), pageSize));
+		dataMap.put("totalPage", String.valueOf(PageUtil.calulatPageCount(all.size(), pageSize)));
 		
 		return dataMap;
 	}

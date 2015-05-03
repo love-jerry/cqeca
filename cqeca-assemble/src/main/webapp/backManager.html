@@ -22,36 +22,52 @@
     <form action="/cqeca/manager/add_article" method="get">
     <div class="b-add-post"><button type="submit">新增文章</button></div>
     </form>
-    <input type="hidden" class="article_list" id="article_list"  value="${list}"/>
 </div>
 
 <script type="text/javascript" src="../js/jquery-1.10.0.min.js"></script>
 <script type="text/javascript" src="../js/jquery.pagination.js"></script>
 <script type="text/javascript">
 
-   // var testData = eval($('#article_list').val());
     var testData = eval(${list});
     var _ = {
-        pageselectCallback: function(page_index, jq){
-            // Get number of elements per pagionation page from form
-            var items_per_page = 15,
-                max_elem = Math.min((page_index + 1) * items_per_page, testData.length),
-                list = [];
+        pageselectCallback: function(page_index){
 
-            // Iterate through a selection of the content and build an HTML string
-            // TODO 把文章链接加入href，提供预览功能
-            for (var i = page_index * items_per_page; i < max_elem; i++) {
-                var item = testData[i];
-                list.push('<li data-id="' + item['id'] + '"><span class="post-remove"><a href="javascript:;" title="删除"><i class="fa fa-remove"></i></a></span><span>' + item['date'] + '</span><span>' + item['cate'] + '</span><span class="pre-post"><a href="#">' + item['title'] + '</a></span></li>');
+            req.getDetailPage({data: {'page': parseInt(page_index + 1)}}, function (data) {
+                var list = [], i = 0, size = data.length;
+                for (; i < size; i++) {
+                    var item = data[i];
+                    // TODO 把文章链接加入href，提供预览功能
+                    list.push('<li data-id="' + item['id'] + '"><span class="post-remove"><a href="javascript:;" title="删除"><i class="fa fa-remove"></i></a></span><span>' + item['date'] + '</span><span>' + item['cate'] + '</span><span class="pre-post"><a href="#">' + item['title'] + '</a></span></li>');
+                }
+                // Replace old content with new content
+                $('ul', $('.b-manager-list')).empty().append(list.join(''));
 
-            }
-            // Replace old content with new content
-            $('ul', $('.b-manager-list')).empty().append(list.join(''));
+                _.bindEvent($('li'),$('.post-remove', $('ul')));
 
-            _.bindEvent($('li'),$('.post-remove', $('ul')));
+                // Prevent click event propagation
+                return false;
+            });
 
-            // Prevent click event propagation
-            return false;
+//            // Get number of elements per pagionation page from form
+//            var items_per_page = 15,
+//                max_elem = Math.min((page_index + 1) * items_per_page, testData.length),
+//                list = [];
+//
+//            // Iterate through a selection of the content and build an HTML string
+//
+//            for (var i = page_index * items_per_page; i < max_elem; i++) {
+//                var item = testData[i];
+//                list.push('<li data-id="' + item['id'] + '"><span class="post-remove"><a href="javascript:;" title="删除"><i class="fa fa-remove"></i></a></span><span>' + item['date'] + '</span><span>' + item['cate'] + '</span><span class="pre-post"><a href="#">' + item['title'] + '</a></span></li>');
+//
+//            }
+//            // Replace old content with new content
+//            $('ul', $('.b-manager-list')).empty().append(list.join(''));
+//
+//            _.bindEvent($('li'),$('.post-remove', $('ul')));
+//
+//            // Prevent click event propagation
+//            return false;
+
         },
         bindEvent: function (o1, o2) {
             o1.mouseover(function () {
@@ -100,23 +116,28 @@
                     callback(data);
                 }
             });
+        },
+        getDetailPage: function (options, callback) {
+            $.ajax($.extend({
+                type: 'POST',
+                url: '/cqeca/manager/main',  // /getDetailPage
+                dataType: 'JSON'
+            }, options, true)).done(function(data){
+                if (data && $.isFunction(callback)) {
+                    callback(data);
+                }
+            });
         }
     };
 
     $(function () {
 
-        // TODO 接口好了，就用此方法
-//        req.getAllPost({}, function (data) {
-//            // init the pagination
-//            $("#Pagination").pagination(data.length, {
-//                callback: _.pageselectCallback,
-//                prev_text: "前一页",
-//                next_text: "后一页"
-//            });
-//        });
-
-        // init the pagination
-        $("#pagination").pagination(testData.length, {
+        _.pageselectCallback(0);
+        // init the pagination TODO 整合到页面的时候，这里是testData.length换成总的条数
+        $("#pagination").pagination(${totalPage}, {
+            items_per_page: ${pageSize}, 
+            num_display_entries: 5,
+            current_page:${page}
             callback: _.pageselectCallback,
             prev_text: "前一页",
             next_text: "后一页"
