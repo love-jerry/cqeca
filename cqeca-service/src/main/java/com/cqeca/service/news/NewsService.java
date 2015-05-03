@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,7 +52,7 @@ public class NewsService {
 	 * @param content
 	 */
 	public void saveNews(String userId,NewsTypeEnum newsType,String title,String content,String label) {
-		logger.info("进入【发布新闻】方法，入参[userId=" + userId + ",newsType=" + newsType + ",title=" + title + "]");
+		logger.info("进入【发布新闻】方法，入参[userId=" + userId + ",newsType=" + newsType + ",title=" + title + ",content=" + content + "]");
 		Date nowDate = Calendar.getInstance().getTime();
 		NewsModel newsModel = new NewsModel();
 		newsModel.setNewsId(UUIDUtil.uuid());
@@ -74,38 +75,38 @@ public class NewsService {
 	 * 首页新闻查询
 	 * @return
 	 */
-	public Map<String,Map<String,Object>> findIndexNews() {
+	public Map<String,String> findIndexNews() {
 		List<NewsModel> activityNews = findNewsByType(NewsTypeEnum.ACTIVITY_NEWS,6);
 		List<NewsModel> dynamicNews = findNewsByType(NewsTypeEnum.DYNAMIC_NEWS,8);
 		List<NewsModel> noticeNews = findNewsByType(NewsTypeEnum.NOTICE_NEWS,8);
 		List<NewsModel> otherNews = findNewsByType(NewsTypeEnum.OTHER_NEWS,8);
 		
 		//处理成视图需要属性字段
-		Map<String,	Map<String,Object>> newsMap = new HashMap<String,	Map<String,Object>>();
+		Map<String,	String> newsMap = new HashMap<String,String>();
 		
 		Map<String,Object> activity_news_map = new HashMap<String,Object>();
 		activity_news_map.put("boxH", "协会活动");
 		activity_news_map.put("boxLink", "活动新闻");
 		activity_news_map.put("list", JSONArray.fromObject(changeViewData(activityNews)));
-		newsMap.put(FiledsConstant.ACTIVITY_NEWS_KEY, activity_news_map);
+		newsMap.put(FiledsConstant.ACTIVITY_NEWS_KEY, JSONObject.fromObject(activity_news_map).toString());
 		
 		Map<String,Object> dynamic_news_map = new HashMap<String,Object>();
 		dynamic_news_map.put("boxH", "协会动态");
 		dynamic_news_map.put("boxLink", "动态新闻");
 		dynamic_news_map.put("list", JSONArray.fromObject(changeViewData(dynamicNews)));
-		newsMap.put(FiledsConstant.DYNAMIC_NEWS_KEY, dynamic_news_map);
+		newsMap.put(FiledsConstant.DYNAMIC_NEWS_KEY, JSONObject.fromObject(dynamic_news_map).toString());
 		
 		Map<String,Object> notice_news_map = new HashMap<String,Object>();
 		notice_news_map.put("boxH", "协会公告");
 		notice_news_map.put("boxLink", "公告新闻");
 		notice_news_map.put("list", JSONArray.fromObject(changeViewData(noticeNews)));
-		newsMap.put(FiledsConstant.NOTICE_NEWS_KEY, notice_news_map);
+		newsMap.put(FiledsConstant.NOTICE_NEWS_KEY, JSONObject.fromObject(notice_news_map).toString());
 		
 		Map<String,Object> other_news_map = new HashMap<String,Object>();
 		other_news_map.put("boxH", "其他新闻");
 		other_news_map.put("boxLink", "其他新闻");
 		other_news_map.put("list", JSONArray.fromObject(changeViewData(otherNews)));
-		newsMap.put(FiledsConstant.OTHER_NEWS_KEY, other_news_map);
+		newsMap.put(FiledsConstant.OTHER_NEWS_KEY, JSONObject.fromObject(other_news_map).toString());
 		
 		return newsMap;
 	}
@@ -248,18 +249,14 @@ public class NewsService {
 		query.with(new Sort(Sort.Direction.DESC, "publishTime"));
 		query.skip((start-1)*pageSize);
 		query.limit(pageSize);
-		List<NewsForm> newsList = changeViewData(newsDao.findMany(query));
-		
+		List<NewsModel> newsList = newsDao.findMany(query);
+		JSONArray jsonArray = changeJsonData(newsList);
 		List<NewsModel> all = newsDao.findAll();
-		if(null == all ) {
-			all = new ArrayList<NewsModel>();
-			newsList = new ArrayList<NewsForm>();
-		}
 		Map<String,Object> dataMap = new HashMap<String,Object>();
 
 		dataMap.put("page", start);
 		dataMap.put("pageSize", pageSize);
-		dataMap.put("list", newsList);
+		dataMap.put("list", jsonArray.toString().replaceAll("\"", "'"));
 		dataMap.put("totalPage", PageUtil.calulatPageCount(all.size(), pageSize));
 		
 		return dataMap;
@@ -290,4 +287,25 @@ public class NewsService {
 		}
 		return viewNews;
 	}
+	
+	/**
+	 * chang json data
+	 * @param news
+	 * @return
+	 */
+	private JSONArray changeJsonData(List<NewsModel> news) {
+		JSONArray jsonArray = new JSONArray();
+		JSONObject jsonObj = null;
+		for(NewsModel newsModel : news) {
+			jsonObj = new JSONObject();
+			jsonObj.accumulate("id", newsModel.getNewsId());
+			jsonObj.accumulate("title", newsModel.getTitle());
+			jsonObj.accumulate("cate", NewsTypeEnum.getByCode(newsModel.getNewsType()).getMessage());
+			jsonObj.accumulate("date", DateFormatUtil.dtSimpleFormat(newsModel.getPublishTime()));
+			jsonArray.add(jsonObj);
+		}
+		return jsonArray;
+	}
+	
+	
 }

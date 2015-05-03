@@ -42,7 +42,7 @@ public class AdminIndexController {
 		}
 		
 		model.addAllAttributes(newsService.findAllNews(start, pageSize));
-		
+		logger.info("model=" + model);
 		return "backManager";
 	}
 

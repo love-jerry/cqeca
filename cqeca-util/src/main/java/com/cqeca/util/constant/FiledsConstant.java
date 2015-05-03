@@ -14,7 +14,7 @@ public class FiledsConstant {
 	//用户session保存key
 	public static final String SESSION_KEY = "session_key";
 	
-	public static final String NEWS_DETAIL_URL = "http://127.0.0.1:8090/news_detail?newsId=";
+	public static final String NEWS_DETAIL_URL = "http://127.0.0.1:8090/cqeca/news_detail?newsId=";
 	
 	public static final String ACTIVITY_NEWS_KEY = "dataLayer1";
 	public static final String DYNAMIC_NEWS_KEY = "dataLayer2";
@@ -25,6 +25,12 @@ public class FiledsConstant {
 	public static final String DOWNLOAD_PERFIX_PATH = "/news/doc/" ;
 
 	public static final String SEARCH_REG_STR = "([\u4e00-\u9fa5] |[0-9]|[a-z]|[A-Z]){1,20}";
+	
+	public static final String IMG_REG_STR = "<img.*?>";
+	
+	public static final String IMG_SRC_REG_STR = "src=\".*?\"";
+	
+	public static final String IMG_TITLE_REG_STR = "title=\".*?\"";
 	
 	public static final int DEFAULT_PAGE_SIZE = 10;
 	

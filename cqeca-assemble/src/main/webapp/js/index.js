@@ -7,69 +7,9 @@ $(function () {
 
     _.bindAboutEvent($('#menu'));
 
-    var dataLayer1 = {
-        'boxH': '协会活动',
-        'boxLink': 'http://luolinjia.com',
-        'isMore': true,
-        'list': [{
-            'link': 'http://baidu.com',
-            'title': '祝贺第五届最受关注十大评选颁奖盛典圆满落a啊啊啊',
-            'date': '2015-04-08'
-        },{
-            'link': 'http://baidu.com',
-            'title': '转发：浙江省商务厅什么等等我转发：浙江省商务厅什么等等我',
-            'date': '2015-04-07'
-        },{
-            'link': 'http://baidu.com',
-            'title': '电商先行，法律随后 ——记杭州市电子商务a厅什么等',
-            'date': '2015-04-06'
-        },{
-            'link': 'http://baidu.com',
-            'title': '电商先行，法律随后 ——记杭州市电子商务a厅什么等',
-            'date': '2015-04-06'
-        },{
-            'link': 'http://baidu.com',
-            'title': '电商先行，法律随后 ——记杭州市电子商务a厅什么等',
-            'date': '2015-04-06'
-        },{
-            'link': 'http://baidu.com',
-            'title': '电商先行，法律随后 ——记杭州市电子商务a厅什么等',
-            'date': '2015-04-06'
-        }]
-    };
     _.renderBox($('.c-layer1-left'), dataLayer1, '358px', 'post');
     _.renderPicBox($('.c-layer1-right'));
 
-    var dataLayer2 = {
-        'boxH': '公告栏',
-        'boxLink': 'http://luolinjia.com',
-        'isMore': true,
-        'list': [{
-            'link': 'http://baidu.com',
-            'title': '祝贺第五届最受关注十大评选颁奖盛典圆满落a啊啊啊',
-            'date': '2015-04-08'
-        },{
-            'link': 'http://baidu.com',
-            'title': '转发：浙江省商务厅什么等等我转发：浙江省商务厅什么等等我',
-            'date': '2015-04-07'
-        },{
-            'link': 'http://baidu.com',
-            'title': '电商先行，法律随后 ——记杭州市电子商务a厅什么等',
-            'date': '2015-04-06'
-        },{
-            'link': 'http://baidu.com',
-            'title': '电商先行，法律随后 ——记杭州市电子商务a厅什么等',
-            'date': '2015-04-06'
-        },{
-            'link': 'http://baidu.com',
-            'title': '电商先行，法律随后 ——记杭州市电子商务a厅什么等',
-            'date': '2015-04-06'
-        },{
-            'link': 'http://baidu.com',
-            'title': '电商先行，法律随后 ——记杭州市电子商务a厅什么等',
-            'date': '2015-04-06'
-        }]
-    };
     var dataLayer21 = {
         'boxH': '公告栏',
         'isMore': false,
@@ -78,37 +18,7 @@ $(function () {
     _.renderBox($('.c-layer2-left'), dataLayer2, '358px', 'post');
     _.renderBox($('.c-layer2-center'), dataLayer21, '358px', 'about');
 
-	var dataLayer4 = {
-		'boxH': '公告栏',
-		'boxLink': 'http://luolinjia.com',
-		'isMore': true,
-		'list': [{
-			'link': 'http://baidu.com',
-			'title': '祝贺第五届最受关注十大评选颁奖盛典圆满落a啊啊啊',
-			'date': '2015-04-08'
-		},{
-			'link': 'http://baidu.com',
-			'title': '转发：浙江省商务厅什么等等我转发：浙江省商务厅什么等等我',
-			'date': '2015-04-07'
-		},{
-			'link': 'http://baidu.com',
-			'title': '电商先行，法律随后 ——记杭州市电子商务a厅什么等',
-			'date': '2015-04-06'
-		},{
-			'link': 'http://baidu.com',
-			'title': '电商先行，法律随后 ——记杭州市电子商务a厅什么等',
-			'date': '2015-04-06'
-		},{
-			'link': 'http://baidu.com',
-			'title': '电商先行，法律随后 ——记杭州市电子商务a厅什么等',
-			'date': '2015-04-06'
-		},{
-			'link': 'http://baidu.com',
-			'title': '电商先行，法律随后 ——记杭州市电子商务a厅什么等',
-			'date': '2015-04-06'
-		}]
-	};
-	_.renderBox($('.c-layer4-left'), dataLayer4, '445px', 'post');
+	_.renderBox($('.c-layer4-left'), dataLayer3, '445px', 'post');
 	_.renderBox($('.c-layer4-right'), dataLayer4, '445px', 'post');
 
 	var dataLayer3 = {

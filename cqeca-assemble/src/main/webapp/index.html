@@ -3,11 +3,17 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
-    <link rel="stylesheet" href="css/base.css"/>
-    <link rel="stylesheet" href="css/index.css"/>
-    <script type="text/javascript" src="js/jquery-1.10.0.min.js"></script>
-    <script type="text/javascript" src="js/index.js"></script>
-    <script type="text/javascript" src="js/jquery-picscroll.js"></script>
+    <link rel="stylesheet" href="/cqeca/css/base.css"/>
+    <link rel="stylesheet" href="/cqeca/css/index.css"/>
+    <script type="text/javascript">
+   		var dataLayer1 = ${dataLayer1};
+  		var dataLayer2 = ${dataLayer2};
+  		var dataLayer3 = ${dataLayer3};
+  	  	var dataLayer4 = ${dataLayer4};
+    </script>
+    <script type="text/javascript" src="/cqeca/js/jquery-1.10.0.min.js"></script>
+    <script type="text/javascript" src="/cqeca/js/index.js"></script>
+    <script type="text/javascript" src="/cqeca/js/jquery-picscroll.js"></script>
 </head>
 <body>
 <div id="header">
@@ -92,5 +98,6 @@
     <div class="f-hyphen"></div>
     <div class="f-copyright">Copyright2012 杭州市电子商务协会　版权所有</div>
 </div>
+<input type="hidden" class="article_list" id="article_list"  value="${dataLayer1}"/>
 </body>
 </html>

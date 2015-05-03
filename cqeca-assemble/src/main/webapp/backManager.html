@@ -22,69 +22,15 @@
     <form action="/cqeca/manager/add_article" method="get">
     <div class="b-add-post"><button type="submit">新增文章</button></div>
     </form>
+    <input type="hidden" class="article_list" id="article_list"  value="${list}"/>
 </div>
 
 <script type="text/javascript" src="../js/jquery-1.10.0.min.js"></script>
 <script type="text/javascript" src="../js/jquery.pagination.js"></script>
 <script type="text/javascript">
 
-    var testData = [{
-        'id': 1,
-        'title': '千色店',
-        'cate': '文化',
-        'date': '2015-02-03'
-    }, {
-        'id': 2,
-        'title': '切入点',
-        'cate': '文化',
-        'date': '2015-02-03'
-    }, {
-        'id': 3,
-        'title': '铁饭碗',
-        'cate': '文化',
-        'date': '2015-02-03'
-    }, {
-        'id': 4,
-        'title': '无上光荣',
-        'cate': '文化',
-        'date': '2015-02-03'
-    }, {
-        'id': 5,
-        'title': '晵',
-        'cate': '文化',
-        'date': '2015-02-03'
-    }, {
-        'id': 6,
-        'title': '是否通过',
-        'cate': '文化',
-        'date': '2015-02-03'
-    }, {
-        'id': 7,
-        'title': '围着呢',
-        'cate': '文化',
-        'date': '2015-02-03'
-    }, {
-        'id': 8,
-        'title': '为什么这样说',
-        'cate': '文化',
-        'date': '2015-02-03'
-    }, {
-        'id': 9,
-        'title': '矮的网购',
-        'cate': '文化',
-        'date': '2015-02-03'
-    }, {
-        'id': 10,
-        'title': '剖',
-        'cate': '文化',
-        'date': '2015-02-03'
-    }, {
-        'id': 11,
-        'title': '宇航局',
-        'cate': '文化',
-        'date': '2015-02-03'
-    }];
-
+   // var testData = eval($('#article_list').val());
+    var testData = eval(${list});
     var _ = {
         pageselectCallback: function(page_index, jq){
             // Get number of elements per pagionation page from form
@@ -147,7 +93,7 @@
         deletePostById: function (options, callback) {
             $.ajax($.extend({
                 type: 'POST',
-                url: '/deletePostById',
+                url: '/cqeca/manager/delete',
                 dataType: 'JSON'
             }, options, true)).done(function(data){
                 if (data && $.isFunction(callback)) {

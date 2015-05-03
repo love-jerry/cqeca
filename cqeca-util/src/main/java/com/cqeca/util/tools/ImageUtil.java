@@ -73,6 +73,7 @@ public class ImageUtil {
 			out.close();
 			return true;
 		} catch (Exception e) {
+			e.printStackTrace();
 			return false;
 		}
 	}

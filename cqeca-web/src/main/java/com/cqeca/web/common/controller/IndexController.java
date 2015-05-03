@@ -2,6 +2,8 @@ package com.cqeca.web.common.controller;
 
 import java.util.Map;
 
+import net.sf.json.JSONObject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +30,9 @@ public class IndexController {
 	@RequestMapping(value = "/index")
 	public String toIndex(ModelMap model) {
 		logger.info("welcome to index page!");
-		Map<String, Map<String,Object>> newsMap = newsService.findIndexNews();
+		Map<String, String> newsMap = newsService.findIndexNews();
 		model.addAllAttributes(newsMap);
+		logger.info("model:" + model);
 		return "index";
 	}
 
