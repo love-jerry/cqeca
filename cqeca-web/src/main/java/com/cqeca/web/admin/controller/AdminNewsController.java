@@ -100,7 +100,6 @@ public class AdminNewsController {
 					logger.info( "filePath=" + filePath);
 					content = content.replaceAll(imgSrc, filePath);
 				}
-				
 			}
 		}
 		logger.info("content=" + content);

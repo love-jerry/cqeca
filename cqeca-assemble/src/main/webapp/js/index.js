@@ -18,8 +18,8 @@ $(function () {
     _.renderBox($('.c-layer2-left'), dataLayer2, '358px', 'post');
     _.renderBox($('.c-layer2-center'), dataLayer21, '358px', 'about');
 
-	_.renderBox($('.c-layer4-left'), dataLayer3, '445px', 'post');
-	_.renderBox($('.c-layer4-right'), dataLayer4, '445px', 'post');
+	_.renderBox($('.c-layer4-left'), dataLayer41, '445px', 'post');
+	_.renderBox($('.c-layer4-right'), dataLayer42, '445px', 'post');
 
 	var dataLayer3 = {
 		'postList': [{
@@ -104,6 +104,7 @@ var _ = {
         $('.b-box', self).css({'width': width});
     },
     renderPostList: function (data, isModule) {
+    	alert(data['list']);
 		var list = [], i = 0, size = data['list'].length;
 		list.push('<ul>');
 		for (; i < size; i++) {

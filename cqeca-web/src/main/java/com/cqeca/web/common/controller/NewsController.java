@@ -38,7 +38,7 @@ public class NewsController {
 		logger.info("welcome to news detail page!");
 		NewsDetailForm newsDetailForm = newsService.getNewsDetail(newsId);
 		model.addAttribute("newsDetail", newsDetailForm);
-		return "/news_detail";
+		return "module";
 	}
 	
 	@RequestMapping(value="/great_news")
@@ -46,7 +46,7 @@ public class NewsController {
 		logger.info("welcome to great news page!");
 		List<NewsForm> greatNewsList = newsService.queryGreatNews();
 		model.addAttribute("greatNews", greatNewsList);
-		return "/great_news";
+		return "great_news";
 	}
 	
 	@RequestMapping(value="/find_news")
@@ -54,7 +54,7 @@ public class NewsController {
 		logger.info("welcome to find news page!");
 		List<NewsForm> newsList = newsService.queryNews(newsType, start, pageSize);
 		model.addAttribute("newsList", newsList);
-		return "/news_list";
+		return "news_list";
 	}
 	
 	@RequestMapping(value="/find_news_by_label")
@@ -72,6 +72,6 @@ public class NewsController {
 		}
 		List<NewsForm> newsList = newsService.queryNewsByLabel(label);
 		model.addAttribute("newsList", newsList);
-		return "/news_list";
+		return "news_list";
 	}
 }
