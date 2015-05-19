@@ -2,12 +2,11 @@ package com.cqeca.web.common.controller;
 
 import java.util.Map;
 
-import net.sf.json.JSONObject;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -36,4 +35,44 @@ public class IndexController {
 		return "index";
 	}
 
+	@RequestMapping(value="/invite")
+	public String intoInvatePage(Model model) {
+		logger.info("welcome to invate page!");
+		model.addAllAttributes(newsService.getActivityNews());
+		return "invite";
+	}
+	
+	@RequestMapping(value="/about")
+	public String intoAboutPage(Model model) {
+		logger.info("welcome to invate page!");
+		model.addAllAttributes(newsService.getActivityNews());
+		return "about";
+	}
+	
+	@RequestMapping(value="/rules")
+	public String getNewsDetail(Model model) {
+		logger.info("welcome to invate page!");
+		model.addAllAttributes(newsService.getActivityNews());
+		return "rules";
+	}
+	
+	@RequestMapping(value="/join")
+	public String intoJoinPage(Model model) {
+		logger.info("welcome to invate page!");
+		model.addAllAttributes(newsService.getActivityNews());
+		return "join";
+	}
+	
+	@RequestMapping(value="/contact")
+	public String intoContactPage(Model model) {
+		logger.info("welcome to invate page!");
+		model.addAllAttributes(newsService.getActivityNews());
+		return "contact";
+	}
+	
+	@RequestMapping(value="/error")
+	public String toError(Model model) {
+		logger.info("welcome to invate page!");
+		return "index";
+	}
 }

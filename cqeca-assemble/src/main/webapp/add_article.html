@@ -12,16 +12,18 @@
 
 <div id="content">
     <div class="p-add">
+    	<form action="/cqeca/manager/preview" method="post" target="_blank">
         <div class="p-add-fun"><h2>新增文章</h2></div>
         <div class="p-add-title"><span><div class="mb5">标题</div><input type="text" placeholder="输入标题" name="title"/></span></div>
-        <div class="p-add-category"><span><div class="mb5">分类</div><button class="selectedCate">业内动态</button><button>协会活动</button><button>协会会刊</button><button>其它信息</button><button>年度大事记</button></span></div>
+        <div class="p-add-category"><span><div class="mb5">分类</div><button type="button" class="selectedCate">业内动态</button><button type="button" >协会活动</button><button type="button" >协会会刊</button><button type="button" >其它信息</button><button type="button" >协会大事记</button></span></div>
         <div class="mb5">内容</div>
         <textarea id="editor" name="content" placeholder=""></textarea>
 
         <div class="p-add-tag"><span><div class="mb5">标签</div><input type="text" placeholder="输入标签，用 , 隔开"/></span></div>
-        <button class="key" id="add_post">增加</button>
+        <button class="key" id="add_post" type="button" >增加</button>
         <button class="key" id="preview_post" type="submit">预览</button>
         <button >取消</button>
+        </form>
     </div>
 </div>
 
@@ -154,8 +156,8 @@
             // check  title
             $('input', $('.p-add-title')).on('keyup', function () {
                 var thiz = $(this);
-                if (thiz.val().length > 20) {
-                    thiz.val(thiz.val().substring(0, 20));
+                if (thiz.val().length > 50) {
+                    thiz.val(thiz.val().substring(0, 50));
                 }
             });
         },
@@ -189,7 +191,7 @@
                 req.pushPost({data: postObj}, function (data){
                     // if success, forward to back manager main page
                     if (data['code'] === '200') {
-                        window.location.href='/cqeca/manager/main'; 
+                       window.location.href='/cqeca/manager/main'; 
                     }
                 });
             });
@@ -231,7 +233,7 @@
         _.bindTitle();
         _.bindCate($('button', $('.p-add-category')));
         _.submitPushPost($('#add_post'));
-        _.previewPost($('#preview_post'));
+       // _.previewPost($('#preview_post'));
     });
 
     var req = {

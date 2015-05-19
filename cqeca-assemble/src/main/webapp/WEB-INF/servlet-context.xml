@@ -16,6 +16,20 @@
 	<resources mapping="/images/**" location="/images/" />
 	<resources mapping="/fonts/**" location="/fonts/" />
 	<resources mapping="/*.html" location="/" />
+	<resources mapping="/news/**" location="/news/" />
+	
+	<interceptors>
+		<interceptor>
+			<mapping path="/**" />
+			<exclude-mapping path="/js/**"/>
+			<exclude-mapping path="/css/**"/>
+			<exclude-mapping path="/images/**"/>
+			<exclude-mapping path="/fonts/**"/>
+			<exclude-mapping path="/*.html "/>
+			<exclude-mapping path="/news/** "/>
+			<beans:bean class="com.cqeca.web.filter.CommonInterceptor" />
+		</interceptor>
+	</interceptors>
 	
 	
     <!--通用视图解析器-->

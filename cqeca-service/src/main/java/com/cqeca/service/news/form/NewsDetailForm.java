@@ -50,6 +50,11 @@ public class NewsDetailForm {
 	 * 后一篇新闻标题
 	 */
 	private String nextTitle;
+	
+	/**
+	 * 新闻类型
+	 */
+	private int newsType;
 
 	public String getLink() {
 		return link;
@@ -113,6 +118,14 @@ public class NewsDetailForm {
 
 	public void setNextTitle(String nextTitle) {
 		this.nextTitle = nextTitle;
+	}
+
+	public int getNewsType() {
+		return newsType;
+	}
+
+	public void setNewsType(int newsType) {
+		this.newsType = newsType;
 	}
 
 	@Override

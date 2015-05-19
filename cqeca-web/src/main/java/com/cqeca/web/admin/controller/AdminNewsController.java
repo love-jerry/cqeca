@@ -1,7 +1,6 @@
 package com.cqeca.web.admin.controller;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cqeca.service.login.session.SessionEntity;
 import com.cqeca.service.news.NewsService;
 import com.cqeca.util.constant.FiledsConstant;
 import com.cqeca.util.enums.NewsTypeEnum;
@@ -47,23 +47,18 @@ public class AdminNewsController {
 		return "add_article";
 	}
 	
-//	@FilterCheckUrl(value = true)
 	@RequestMapping(value="/publish",method=RequestMethod.POST)
 	@ResponseBody
 	public Object publishNews(String title,String content,String category,String tag, HttpServletRequest request,Model model) {
 		logger.info("welcome to publish news page");
-		
-//		logger.info("tile=" + title + ",category=" + category + ",tag=" + tag + ",content=" + content);
+		logger.info("tile=" + title + ",category=" + category + ",tag=" + tag);
 		HttpSession session = request.getSession();
 		
-//		SessionEntity sessionEntity = (SessionEntity)(session.getAttribute(FiledsConstant.SESSION_KEY));
-//		String userId = sessionEntity.getUserId();
-		String userId = "75870570-9d50-46ee-880f-b867133951d4";
-		category = "协会活动";
+		SessionEntity sessionEntity = (SessionEntity)(session.getAttribute(FiledsConstant.SESSION_KEY));
+		String userId = sessionEntity.getUserId();
+//		String userId = "75870570-9d50-46ee-880f-b867133951d4";
 		NewsTypeEnum newsType = NewsTypeEnum.getByMessage(category);
 		//handle img
-	
-		SimpleDateFormat dateformat = new SimpleDateFormat("yyyy/MM/dd");
 		/** 构建图片保存的目录 **/
 		String imgPathDir = FiledsConstant.UPLOAD_PERFIX_PATH + DateFormatUtil.dtSimpleFormat(new Date());
 		
@@ -82,6 +77,10 @@ public class AdminNewsController {
 			for(String imgStr : imgList) {
 				imgTitleStr = RegUtil.matchChliedStr(imgStr,FiledsConstant.IMG_TITLE_REG_STR);
 				imgSrcStr = RegUtil.matchChliedStr(imgStr,FiledsConstant.IMG_SRC_REG_STR);
+				if(null == imgSrcStr || "".equals(imgSrcStr)) {
+					continue;
+				}
+				//只处理data:image图片流，其他情况不做处理
 				imgTitle = imgTitleStr.split("\"")[1];
 				imgSrc = imgSrcStr.split("\"")[1];
 				imgBuffer = imgStr.substring(imgStr.indexOf(',') + 1);
@@ -98,11 +97,10 @@ public class AdminNewsController {
 					logger.info("imgSrc=" + imgSrc);
 					filePath = RegUtil.escapeExprSpecialWord(filePath);
 					logger.info( "filePath=" + filePath);
-					content = content.replaceAll(imgSrc, filePath);
+					content = content.replaceAll(imgSrc, "/cqeca" + imgPathDir + "/" + imgTitle);
 				}
 			}
 		}
-		logger.info("content=" + content);
 		
 		newsService.saveNews(userId, newsType, title, content, tag);
 		Map<String,String> result = new HashMap<String,String>();
@@ -112,11 +110,11 @@ public class AdminNewsController {
 	
 	@RequestMapping(value="/delete")
 	@ResponseBody
-	public Object deleteNews(String newsId) {
-		newsService.deleteNewsById(newsId);
-		Map<String,String> result = new HashMap<String,String>();
-		result.put("code", "1");
-		result.put("msg", "删除成功");
+	public Object deleteNews(String id) {
+		logger.info("into deleta page  newsId=" + id);
+		newsService.deleteNewsById(id);
+		Map<String,Object> result = new HashMap<String,Object>();
+		result.put("code", 200);
 		return result;
 	}
 	

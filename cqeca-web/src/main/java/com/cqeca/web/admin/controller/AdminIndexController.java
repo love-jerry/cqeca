@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cqeca.service.news.NewsService;
 import com.cqeca.util.constant.FiledsConstant;
@@ -35,7 +36,7 @@ public class AdminIndexController {
 	public String toManagerIndex(Integer start,Integer pageSize,Model model) {
 		logger.info("welcome to manager index page!");
 		if(start == null ) {
-			start = 1;
+			start = 0;
 		}
 		if(pageSize == null) {
 			pageSize = FiledsConstant.DEFAULT_PAGE_SIZE;
@@ -44,6 +45,18 @@ public class AdminIndexController {
 		model.addAllAttributes(newsService.findAllNews(start, pageSize));
 		logger.info("model=" + model);
 		return "backManager";
+	}
+	
+	@RequestMapping(value = "/detail_page")
+	@ResponseBody
+	public Object getDetailPageData(Integer page,Model model) {
+		logger.info("welcome to manager index data page!");
+		if(page == null ) {
+			page = 0;
+		}
+		int	pageSize = FiledsConstant.DEFAULT_PAGE_SIZE;
+		
+		return newsService.findDetailDataNews(page, pageSize);
 	}
 
 }

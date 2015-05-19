@@ -27,7 +27,7 @@ import com.cqeca.service.news.form.NewsForm;
 import com.cqeca.util.constant.FiledsConstant;
 import com.cqeca.util.enums.NewsTypeEnum;
 import com.cqeca.util.tools.DateFormatUtil;
-import com.cqeca.util.tools.PageUtil;
+import com.cqeca.util.tools.RegUtil;
 import com.cqeca.util.tools.UUIDUtil;
 
 /**
@@ -85,29 +85,34 @@ public class NewsService {
 		Map<String,	String> newsMap = new HashMap<String,String>();
 		
 		Map<String,Object> activity_news_map = new HashMap<String,Object>();
+		activity_news_map.put("isMore", true);
 		activity_news_map.put("boxH", "协会活动");
-		activity_news_map.put("boxLink", "活动新闻");
+		activity_news_map.put("boxLink", FiledsConstant.MODULE_NEWS_DETAIL_URL + NewsTypeEnum.ACTIVITY_NEWS.code());
 		activity_news_map.put("list", JSONArray.fromObject(changeViewData(activityNews)));
 		newsMap.put(FiledsConstant.ACTIVITY_NEWS_KEY, JSONObject.fromObject(activity_news_map).toString());
 		
 		Map<String,Object> dynamic_news_map = new HashMap<String,Object>();
-		dynamic_news_map.put("boxH", "协会动态");
-		dynamic_news_map.put("boxLink", "动态新闻");
+		dynamic_news_map.put("isMore", true);
+		dynamic_news_map.put("boxH", "业内动态");
+		dynamic_news_map.put("boxLink", FiledsConstant.MODULE_NEWS_DETAIL_URL + NewsTypeEnum.DYNAMIC_NEWS.code());
 		dynamic_news_map.put("list", JSONArray.fromObject(changeViewData(dynamicNews)));
 		newsMap.put(FiledsConstant.DYNAMIC_NEWS_KEY, JSONObject.fromObject(dynamic_news_map).toString());
 		
 		Map<String,Object> notice_news_map = new HashMap<String,Object>();
-		notice_news_map.put("boxH", "协会公告");
-		notice_news_map.put("boxLink", "公告新闻");
+		notice_news_map.put("isMore", true);
+		notice_news_map.put("boxH", "协会会刊");
+		notice_news_map.put("boxLink", FiledsConstant.MODULE_NEWS_DETAIL_URL + NewsTypeEnum.NOTICE_NEWS.code());
 		notice_news_map.put("list", JSONArray.fromObject(changeViewData(noticeNews)));
 		newsMap.put(FiledsConstant.NOTICE_NEWS_KEY, JSONObject.fromObject(notice_news_map).toString());
 		
 		Map<String,Object> other_news_map = new HashMap<String,Object>();
+		other_news_map.put("isMore", true);
 		other_news_map.put("boxH", "其他新闻");
-		other_news_map.put("boxLink", "其他新闻");
+		other_news_map.put("boxLink", FiledsConstant.MODULE_NEWS_DETAIL_URL + NewsTypeEnum.OTHER_NEWS.code());
 		other_news_map.put("list", JSONArray.fromObject(changeViewData(otherNews)));
 		newsMap.put(FiledsConstant.OTHER_NEWS_KEY, JSONObject.fromObject(other_news_map).toString());
 		
+		newsMap.put(FiledsConstant.ACTIVITY_NEWS_PIC_KEY, picNewsData(activityNews).toString());
 		return newsMap;
 	}
 	
@@ -143,8 +148,22 @@ public class NewsService {
 			newsDetailForm.setNextLink(FiledsConstant.NEWS_DETAIL_URL + nextNews.getNewsId());
 			newsDetailForm.setNextTitle(nextNews.getTitle());
 		}
-		
+		newsDetailForm.setNewsType(type);
 		return newsDetailForm;
+	}
+	
+	//协会活动新闻最新6条
+	public Map<String,String> getActivityNews() {
+		List<NewsModel> activityNews = findNewsByType(NewsTypeEnum.ACTIVITY_NEWS,6);
+		Map<String,	String> newsMap = new HashMap<String,String>();
+		
+		Map<String,Object> activity_news_map = new HashMap<String,Object>();
+		activity_news_map.put("isMore", true);
+		activity_news_map.put("boxH", "协会活动");
+		activity_news_map.put("boxLink", FiledsConstant.MODULE_NEWS_DETAIL_URL + NewsTypeEnum.ACTIVITY_NEWS.code());
+		activity_news_map.put("list", JSONArray.fromObject(changeViewData(activityNews)));
+		newsMap.put(FiledsConstant.ACTIVITY_NEWS_KEY, JSONObject.fromObject(activity_news_map).toString());
+		return newsMap;
 	}
 	
 	/**
@@ -152,7 +171,7 @@ public class NewsService {
 	 * @return
 	 */
 	public List<NewsForm> queryGreatNews() {
-		List<NewsModel> greatNews = findNewsByType(NewsTypeEnum.OTHER_NEWS,1000);
+		List<NewsModel> greatNews = findNewsByType(NewsTypeEnum.GREAT_NEWS,1000);
 		return changeViewData(greatNews);
 	}
 	/***
@@ -172,14 +191,23 @@ public class NewsService {
 	 * @param label
 	 * @return
 	 */
-	public List<NewsForm> queryNewsByLabel(String label) {
+	public Map<String,	String> queryNewsByLabel(int newsType,String label) {
 		Pattern pattern = Pattern.compile("^label$", Pattern.CASE_INSENSITIVE);
 		Criteria criteria =  Criteria.where("label").regex(pattern);
 		Query query = new Query(criteria);
 		query.with(new Sort(Sort.Direction.DESC, "publishTime"));
 		List<NewsModel> newsList =  newsDao.findMany(query);
 		
-		return changeViewData(newsList);
+		Map<String,	String> newsMap = new HashMap<String,String>();
+		
+		Map<String,Object> activity_news_map = new HashMap<String,Object>();
+		activity_news_map.put("isMore", true);
+		activity_news_map.put("boxH", "协会活动");
+		activity_news_map.put("boxLink", FiledsConstant.MODULE_NEWS_DETAIL_URL + NewsTypeEnum.ACTIVITY_NEWS.code());
+		activity_news_map.put("list", JSONArray.fromObject(changeViewData(newsList)));
+		newsMap.put(FiledsConstant.ACTIVITY_NEWS_KEY, JSONObject.fromObject(activity_news_map).toString());
+		return newsMap;
+		
 	}
 	
 	/**
@@ -234,7 +262,7 @@ public class NewsService {
 		Criteria criteria =  Criteria.where("newsType").is(newsType);
 		Query query = new Query(criteria);
 		query.with(new Sort(Sort.Direction.DESC, "publishTime"));
-		query.skip((start-1)*pageSize);
+		query.skip(start*pageSize);
 		query.limit(pageSize);
 		return newsDao.findMany(query);
 	}
@@ -247,19 +275,43 @@ public class NewsService {
 		Criteria criteria = new Criteria();
 		Query query = new Query(criteria);
 		query.with(new Sort(Sort.Direction.DESC, "publishTime"));
-		query.skip((start-1)*pageSize);
+		query.skip(start*pageSize);
 		query.limit(pageSize);
-		List<NewsModel> newsList = newsDao.findMany(query);
-		JSONArray jsonArray = changeJsonData(newsList);
 		List<NewsModel> all = newsDao.findAll();
 		Map<String,Object> dataMap = new HashMap<String,Object>();
 
-		dataMap.put("page", String.valueOf(start));
+		dataMap.put("page", String.valueOf(start-1));
 		dataMap.put("pageSize", String.valueOf(pageSize));
-		dataMap.put("list", jsonArray.toString().replaceAll("\"", "'"));
-		dataMap.put("totalPage", String.valueOf(PageUtil.calulatPageCount(all.size(), pageSize)));
+		dataMap.put("totalNo", all.size());
 		
 		return dataMap;
+	}
+	
+	/**
+	 * 每类新闻总条数
+	 * @param newsType
+	 * @return
+	 */
+	public int findNewsByType(int newsType) {
+		Criteria criteria = Criteria.where("newsType").is(newsType);
+		Query query = new Query(criteria);
+		
+		List<NewsModel> all = newsDao.findMany(query);
+		return all.size();
+	}
+	
+	/**
+	 * 查询所有新闻，按发布时间排序
+	 * @return
+	 */
+	public JSONArray findDetailDataNews(int start,int pageSize) {
+		Criteria criteria = new Criteria();
+		Query query = new Query(criteria);
+		query.with(new Sort(Sort.Direction.DESC, "publishTime"));
+		query.skip(start*pageSize);
+		query.limit(pageSize);
+		List<NewsModel> newsList = newsDao.findMany(query);
+		return changeJsonData(newsList);
 	}
 	
 	/**
@@ -267,7 +319,7 @@ public class NewsService {
 	 * @param newsId
 	 */
 	public void deleteNewsById(String newsId) {
-		newsDao.remove(newsId);
+		newsDao.remove("newsId",newsId);
 	}
 	
 	/*
@@ -302,10 +354,39 @@ public class NewsService {
 			jsonObj.accumulate("title", newsModel.getTitle());
 			jsonObj.accumulate("cate", NewsTypeEnum.getByCode(newsModel.getNewsType()).getMessage());
 			jsonObj.accumulate("date", DateFormatUtil.dtSimpleFormat(newsModel.getPublishTime()));
+			jsonObj.accumulate("link", FiledsConstant.NEWS_DETAIL_URL + newsModel.getNewsId());
 			jsonArray.add(jsonObj);
 		}
 		return jsonArray;
 	}
 	
-	
+	/**
+	 * 协会活动图片资讯
+	 * @param news
+	 * @return
+	 */
+	private JSONArray picNewsData(List<NewsModel> news) {
+		JSONArray jsonArray = new JSONArray();
+		JSONObject jsonObj = null;
+		for(NewsModel newsModel : news) {
+			jsonObj = new JSONObject();
+			jsonObj.accumulate("link", FiledsConstant.NEWS_DETAIL_URL + newsModel.getNewsId());
+			String content = newsModel.getContent();
+			String imgSrcStr = "";
+			String imgSrc = "";
+			List<String> imgList = RegUtil.matchStr(content, FiledsConstant.IMG_REG_STR);
+			if(imgList.size() > 0) {
+				imgSrcStr = RegUtil.matchChliedStr(imgList.get(0),FiledsConstant.IMG_SRC_REG);
+				if(null == imgSrcStr || "".equals(imgSrcStr)) {
+					continue;
+				}
+				imgSrc = imgSrcStr.split("\"")[1];
+				jsonObj.accumulate("img", imgSrc);
+			} else {
+				continue;
+			}
+			jsonArray.add(jsonObj);
+		}
+		return jsonArray;
+	}
 }

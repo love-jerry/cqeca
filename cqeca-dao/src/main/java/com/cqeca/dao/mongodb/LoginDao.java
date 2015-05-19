@@ -27,5 +27,5 @@ public class LoginDao extends BaseMongodbDao<LoginModel>{
 	public String getCollectionName() {
 		return USER_LOGIN_TABLE_NAME;
 	}
-	
+
 }

@@ -66,6 +66,10 @@ public abstract class BaseMongodbDao<T> {
 	public void remove(String id) {
 		mongoTemplate.remove(new Query(Criteria.where("id").is(id)), getCollectionName());
 	}
+	
+	public void remove(String keyId,String valueId) {
+		mongoTemplate.remove(new Query(Criteria.where(keyId).is(valueId)), getCollectionName());
+	}
 
 	public void removeAll() {
 		mongoTemplate.remove(new Query(), getCollectionName());

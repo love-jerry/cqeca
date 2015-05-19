@@ -108,9 +108,10 @@
 
 		<!-- servlet-api -->
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>2.5</version>
+	        <groupId>javax.servlet</groupId>
+	        <artifactId>javax.servlet-api</artifactId>
+	        <version>3.0.1</version>
+	        <scope>provided</scope>
 		</dependency>
 
 		<!-- 文件上传 -->
@@ -190,6 +191,14 @@
 			<id>jboss</id>
 			<name>JBoss Repository</name>
 			<url>http://repository.jboss.com/maven2/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
+		<repository>
+			<id>maven</id>
+			<name>maven Repository</name>
+			<url>http://repo1.maven.org/maven2/</url>
 			<releases>
 				<enabled>true</enabled>
 			</releases>

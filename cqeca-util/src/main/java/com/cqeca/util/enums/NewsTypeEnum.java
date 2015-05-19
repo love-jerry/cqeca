@@ -11,20 +11,20 @@ import java.util.List;
  */
 public enum NewsTypeEnum {
 
+	// 动态
+	DYNAMIC_NEWS(1, "业内动态"),
+	
 	// 活动
-	ACTIVITY_NEWS(1, "协会活动"),
+	ACTIVITY_NEWS(2, "协会活动"),
 
 	// 公告
-	NOTICE_NEWS(2, "公告类新闻"),
-
-	// 动态
-	DYNAMIC_NEWS(3, "协会会刊"),
-
+	NOTICE_NEWS(3, "协会会刊"),
+	
 	// 其他
 	OTHER_NEWS(4, "其它信息"),
 	
 	// 其他
-	GREAT_NEWS(5, "大事记新闻");
+	GREAT_NEWS(5, "协会大事记");
 
 	/** 枚举值 */
 	private final int code;
